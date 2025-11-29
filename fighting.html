@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Turn Based Combat Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; }
+    #game { max-width:600px; margin:auto; }
+    .button { padding:10px; margin:5px; cursor:pointer; }
+  </style>
+</head>
+<body>
+<div id="game">
+  <h1>Turn Based Combat Game</h1>
+  <div id="playerStats"></div>
+  <div id="enemyStats"></div>
+  <div id="actions"></div>
+  <div id="message"></div>
+</div>
+<script>
+let player = {
+  level: 1,
+  hp: 100,
+  maxHp: 100,
+  attack: 10,
+  potions: 3
+};
+
+let enemies = [
+  {type:"Goblin", hp:50, attack:5, weakness:"fire"},
+  {type:"Orc", hp:80, attack:8, weakness:"ice"},
+  {type:"Dragon", hp:120, attack:15, weakness:"lightning"}
+];
+
+let currentEnemy;
+let defeated = 0;
+
+function spawnEnemy() {
+  const idx = Math.floor(Math.random()*enemies.length);
+  currentEnemy = JSON.parse(JSON.stringify(enemies[idx]));
+  const difficulty = 1 + defeated * 0.5;
+  currentEnemy.hp = Math.floor(currentEnemy.hp * difficulty);
+  currentEnemy.attack = Math.floor(currentEnemy.attack * difficulty);
+  updateUI();
+}
+
+function updateUI(msg="") {
+  document.getElementById('playerStats').innerHTML = `Player Lv ${player.level} | HP: ${player.hp}/${player.maxHp} | Potions: ${player.potions}`;
+  if(currentEnemy) {
+    document.getElementById('enemyStats').innerHTML = `${currentEnemy.type} | HP: ${currentEnemy.hp}`;
+  } else {
+    document.getElementById('enemyStats').innerHTML = "No enemy currently.";
+  }
+  let actions = "";
+  if(currentEnemy) {
+    actions += `<button class='button' onclick='attack()'>Attack</button>`;
+    actions += `<button class='button' onclick='usePotion()'>Use Potion</button>`;
+    actions += `<button class='button' onclick='specialAttack()'>Special Attack</button>`;
+  } else {
+    actions += `<button class='button' onclick='spawnEnemy()'>Find Enemy</button>`;
+  }
+  document.getElementById('actions').innerHTML = actions;
+  document.getElementById('message').innerHTML = msg;
+}
+
+function attack() {
+  let dmg = player.attack;
+  currentEnemy.hp -= dmg;
+  let msg = `You attack and deal ${dmg} damage.`;
+  if(currentEnemy.hp <= 0) {
+    win();
+    return;
+  }
+  enemyTurn(msg);
+}
+
+function specialAttack() {
+  const types = ["fire","ice","lightning"];
+  const chosen = types[Math.floor(Math.random()*types.length)];
+  let dmg = player.attack * (chosen === currentEnemy.weakness ? 2 : 1);
+  currentEnemy.hp -= dmg;
+  let msg = `You use a ${chosen} attack and deal ${dmg} damage!`;
+  if(currentEnemy.hp <= 0) {
+    win();
+    return;
+  }
+  enemyTurn(msg);
+}
+
+function usePotion() {
+  if(player.potions > 0) {
+    player.potions--;
+    player.hp = Math.min(player.maxHp, player.hp + 30);
+    enemyTurn("You used a potion and healed 30 HP.");
+  } else {
+    updateUI("No potions left!");
+  }
+}
+
+function enemyTurn(prevMsg) {
+  let dmg = currentEnemy.attack;
+  player.hp -= dmg;
+  let msg = `${prevMsg} Enemy attacks for ${dmg} damage.`;
+  if(player.hp <= 0) {
+    lose();
+    return;
+  }
+  updateUI(msg);
+}
+
+function win() {
+  defeated++;
+  player.level++;
+  player.maxHp += 10;
+  player.hp = player.maxHp;
+  player.attack += 5;
+  player.potions++;
+  currentEnemy = null;
+  updateUI(`You defeated the enemy! You leveled up and got a potion.`);
+}
+
+function lose() {
+  updateUI(`You have been defeated. Refresh to try again.`);
+  currentEnemy = null;
+}
+
+updateUI();
+</script>
+</body>
+</html>
