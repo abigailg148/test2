@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Exam Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .selection-screen, .question-screen {
+            display: none;
+        }
+
+        .selection-screen.active, .question-screen.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-text {
+            font-size: 1.15em;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .feedback h3 {
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .topic-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .mark-breakdown {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .mark-breakdown h4 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .partial-credit {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+        }
+
+        .math-palette {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .math-palette.show {
+            display: block;
+        }
+
+        .math-palette h4 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+            font-size: 0.9em;
+        }
+
+        .math-symbols {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 8px;
+        }
+
+        .math-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .math-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .math-btn:active {
+            transform: translateY(0);
+        }
+
+        .symbol-group {
+            margin-bottom: 15px;
+        }
+
+        .symbol-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .symbol-group-title {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 A-Level Exam Practice</h1>
+            <div class="score-board">
+                <div class="score-item">
+                    <strong>Current Topic:</strong> <span id="topic-percentage">--%</span>
+                </div>
+                <div class="score-item">
+                    <strong>Current Subject:</strong> <span id="subject-percentage">--%</span>
+                </div>
+                <div class="score-item">
+                    <strong>Overall:</strong> <span id="overall-percentage">--%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Selection Screen -->
+            <div class="selection-screen active">
+                <div class="form-group">
+                    <label for="subject-select">Select Subject:</label>
+                    <select id="subject-select">
+                        <option value="">-- Choose a subject --</option>
+                        <option value="edexcel-maths">Edexcel A-Level Maths</option>
+                        <option value="edexcel-further-maths">Edexcel A-Level Further Maths</option>
+                        <option value="ocr-cs">OCR A-Level Computer Science</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="topic-select">Select Topic:</label>
+                    <select id="topic-select" disabled>
+                        <option value="">-- First select a subject --</option>
+                    </select>
+                </div>
+
+                <button id="start-btn" disabled>Start Practice</button>
+            </div>
+
+            <!-- Question Screen -->
+            <div class="question-screen">
+                <div class="topic-info">
+                    <strong>Subject:</strong> <span id="current-subject"></span><br>
+                    <strong>Topic:</strong> <span id="current-topic"></span>
+                </div>
+
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your question...</p>
+                </div>
+
+                <div id="question-container" style="display: none;">
+                    <div class="question-box">
+                        <div class="question-text" id="question-text"></div>
+                    </div>
+
+                    <div class="math-palette" id="math-palette">
+                        <h4>📐 Mathematical Symbols - Click to Insert</h4>
+                        
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Powers & Roots</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="²">x²</button>
+                                <button class="math-btn" data-symbol="³">x³</button>
+                                <button class="math-btn" data-symbol="⁴">x⁴</button>
+                                <button class="math-btn" data-symbol="⁵">x⁵</button>
+                                <button class="math-btn" data-symbol="ⁿ">xⁿ</button>
+                                <button class="math-btn" data-symbol="√">√</button>
+                                <button class="math-btn" data-symbol="∛">∛</button>
+                                <button class="math-btn" data-symbol="∜">∜</button>
+                            </div>
+                        </div>
+
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Greek Letters</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="α">α</button>
+                                <button class="math-btn" data-symbol="β">β</button>
+                                <button class="math-btn" data-symbol="γ">γ</button>
+                                <button class="math-btn" data-symbol="δ">δ</button>
+                                <button class="math-btn" data-symbol="θ">θ</button>
+                                <button class="math-btn" data-symbol="λ">λ</button>
+                                <button class="math-btn" data-symbol="μ">μ</button>
+                                <button class="math-btn" data-symbol="π">π</button>
+                                <button class="math-btn" data-symbol="σ">σ</button>
+                                <button class="math-btn" data-symbol="φ">φ</button>
+                                <button class="math-btn" data-symbol="ω">ω</button>
+                                <button class="math-btn" data-symbol="Δ">Δ</button>
+                                <button class="math-btn" data-symbol="Σ">Σ</button>
+                                <button class="math-btn" data-symbol="Π">Π</button>
+                                <button class="math-btn" data-symbol="Ω">Ω</button>
+                            </div>
+                        </div>
+
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Operators & Relations</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="±">±</button>
+                                <button class="math-btn" data-symbol="∓">∓</button>
+                                <button class="math-btn" data-symbol="×">×</button>
+                                <button class="math-btn" data-symbol="÷">÷</button>
+                                <button class="math-btn" data-symbol="≠">≠</button>
+                                <button class="math-btn" data-symbol="≈">≈</button>
+                                <button class="math-btn" data-symbol="≤">≤</button>
+                                <button class="math-btn" data-symbol="≥">≥</button>
+                                <button class="math-btn" data-symbol="∞">∞</button>
+                                <button class="math-btn" data-symbol="∝">∝</button>
+                                <button class="math-btn" data-symbol="∫">∫</button>
+                                <button class="math-btn" data-symbol="∂">∂</button>
+                                <button class="math-btn" data-symbol="∇">∇</button>
+                            </div>
+                        </div>
+
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Fractions & Subscripts</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="½">½</button>
+                                <button class="math-btn" data-symbol="⅓">⅓</button>
+                                <button class="math-btn" data-symbol="¼">¼</button>
+                                <button class="math-btn" data-symbol="⅔">⅔</button>
+                                <button class="math-btn" data-symbol="¾">¾</button>
+                                <button class="math-btn" data-symbol="₀">₀</button>
+                                <button class="math-btn" data-symbol="₁">₁</button>
+                                <button class="math-btn" data-symbol="₂">₂</button>
+                                <button class="math-btn" data-symbol="₃">₃</button>
+                                <button class="math-btn" data-symbol="ₙ">ₙ</button>
+                            </div>
+                        </div>
+
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Sets & Logic</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="∈">∈</button>
+                                <button class="math-btn" data-symbol="∉">∉</button>
+                                <button class="math-btn" data-symbol="∪">∪</button>
+                                <button class="math-btn" data-symbol="∩">∩</button>
+                                <button class="math-btn" data-symbol="⊂">⊂</button>
+                                <button class="math-btn" data-symbol="⊆">⊆</button>
+                                <button class="math-btn" data-symbol="∅">∅</button>
+                                <button class="math-btn" data-symbol="∀">∀</button>
+                                <button class="math-btn" data-symbol="∃">∃</button>
+                                <button class="math-btn" data-symbol="¬">¬</button>
+                                <button class="math-btn" data-symbol="∧">∧</button>
+                                <button class="math-btn" data-symbol="∨">∨</button>
+                                <button class="math-btn" data-symbol="⇒">⇒</button>
+                                <button class="math-btn" data-symbol="⇔">⇔</button>
+                            </div>
+                        </div>
+
+                        <div class="symbol-group">
+                            <div class="symbol-group-title">Arrows & Vectors</div>
+                            <div class="math-symbols">
+                                <button class="math-btn" data-symbol="→">→</button>
+                                <button class="math-btn" data-symbol="←">←</button>
+                                <button class="math-btn" data-symbol="↔">↔</button>
+                                <button class="math-btn" data-symbol="⃗">⃗ (vec)</button>
+                                <button class="math-btn" data-symbol="°">°</button>
+                                <button class="math-btn" data-symbol="∠">∠</button>
+                                <button class="math-btn" data-symbol="⊥">⊥</button>
+                                <button class="math-btn" data-symbol="∥">∥</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer-input">Your Answer:</label>
+                        <textarea id="answer-input" placeholder="Enter your answer here..."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="submit-btn">Submit Answer</button>
+                        <button id="new-question-btn" style="display: none;">Next Question</button>
+                        <button id="change-topic-btn">Change Topic</button>
+                    </div>
+
+                    <div class="feedback" id="feedback"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Specification details for each subject to ensure questions stay within scope
+        const specifications = {
+            'edexcel-maths': {
+                'Pure Maths: Algebra and Functions': 'Only include: simplifying expressions, factorising, completing the square, quadratic equations, simultaneous equations, inequalities, functions and mappings, composite and inverse functions, transformations of graphs. A-level standard only.',
+                'Pure Maths: Coordinate Geometry': 'Only include: equations of straight lines, parallel and perpendicular lines, circle equations (x-a)²+(y-b)²=r², parametric equations. A-level standard only.',
+                'Pure Maths: Sequences and Series': 'Only include: arithmetic sequences and series, geometric sequences and series, sum to infinity, sigma notation, binomial expansion. A-level standard only.',
+                'Pure Maths: Trigonometry': 'Only include: sine and cosine rules, area of triangle, radians, arc length, sector area, trigonometric identities, solving trigonometric equations, small angle approximations. A-level standard only.',
+                'Pure Maths: Exponentials and Logarithms': 'Only include: laws of logarithms, exponential functions, solving equations with e and ln. A-level standard only.',
+                'Pure Maths: Differentiation': 'Only include: differentiation from first principles, product rule, quotient rule, chain rule, differentiation of sin, cos, tan, e^x, ln(x), stationary points, increasing/decreasing functions, second derivatives. A-level standard only.',
+                'Pure Maths: Integration': 'Only include: integration as reverse of differentiation, definite and indefinite integrals, area under curves, integration by substitution, integration by parts, trapezium rule. A-level standard only.',
+                'Pure Maths: Vectors': 'Only include: 2D and 3D vectors, magnitude, scalar product, vector equations of lines, angle between vectors. A-level standard only.',
+                'Statistics: Data Collection': 'Only include: sampling methods, types of data, cleaning data. A-level standard only.',
+                'Statistics: Probability': 'Only include: Venn diagrams, tree diagrams, conditional probability, independent events, mutually exclusive events. A-level standard only.',
+                'Statistics: Statistical Distributions': 'Only include: binomial distribution, normal distribution, hypothesis testing for binomial and normal distributions. A-level standard only.',
+                'Statistics: Hypothesis Testing': 'Only include: null and alternative hypotheses, significance levels, one-tailed and two-tailed tests, critical values. A-level standard only.',
+                'Mechanics: Kinematics': 'Only include: SUVAT equations, displacement-time and velocity-time graphs, constant acceleration, vertical motion under gravity. A-level standard only.',
+                'Mechanics: Forces and Newton\'s Laws': 'Only include: resolving forces, equilibrium, Newton\'s laws, friction, connected particles. A-level standard only.',
+                'Mechanics: Moments': 'Only include: taking moments, equilibrium of rigid bodies. A-level standard only.'
+            },
+            'edexcel-further-maths': {
+                'Further Pure: Complex Numbers': 'Only include: complex number arithmetic, modulus and argument, Argand diagrams, exponential form, de Moivre\'s theorem, roots of unity. A-level Further Maths standard only.',
+                'Further Pure: Matrices': 'Only include: matrix arithmetic, determinants, inverse matrices, linear transformations, eigenvalues and eigenvectors (2×2 and 3×3 only). A-level Further Maths standard only.',
+                'Further Pure: Further Calculus': 'Only include: improper integrals, Maclaurin series, inverse trigonometric functions, further integration techniques. A-level Further Maths standard only.',
+                'Further Pure: Further Vectors': 'Only include: vector product, triple scalar product, vector equations of planes, intersection of lines and planes. A-level Further Maths standard only.',
+                'Further Pure: Polar Coordinates': 'Only include: converting between polar and Cartesian, sketching polar curves, area in polar coordinates. A-level Further Maths standard only.',
+                'Further Pure: Hyperbolic Functions': 'Only include: definitions of sinh, cosh, tanh, identities, inverse hyperbolic functions, solving equations. A-level Further Maths standard only.',
+                'Further Pure: Differential Equations': 'Only include: first order differential equations, second order homogeneous equations, particular integrals. A-level Further Maths standard only.',
+                'Further Mechanics: Momentum and Impulse': 'Only include: impulse-momentum theorem, conservation of momentum, collisions in one dimension. A-level Further Maths standard only.',
+                'Further Mechanics: Work, Energy and Power': 'Only include: work done by a force, kinetic and potential energy, power, work-energy principle. A-level Further Maths standard only.',
+                'Further Mechanics: Elastic Collisions': 'Only include: coefficient of restitution, direct and oblique impacts. A-level Further Maths standard only.',
+                'Decision Maths: Algorithms': 'Only include: bubble sort, quick sort, binary search, bin packing, order of algorithms. A-level Further Maths standard only.',
+                'Decision Maths: Graph Theory': 'Only include: graphs and trees, Kruskal\'s and Prim\'s algorithms, Dijkstra\'s algorithm, route inspection. A-level Further Maths standard only.',
+                'Decision Maths: Linear Programming': 'Only include: formulating problems, graphical solutions, simplex method. A-level Further Maths standard only.'
+            },
+            'ocr-cs': {
+                'Component 1: Data Types': 'Only include: primitive data types (integer, real, boolean, character, string), representation of numbers (binary, hex, two\'s complement, floating point), ASCII and Unicode. A-level Computer Science standard only.',
+                'Component 1: Data Structures': 'Only include: arrays, records, lists, tuples, stacks, queues, trees, graphs, hash tables. A-level Computer Science standard only.',
+                'Component 1: Boolean Algebra': 'Only include: logic gates (AND, OR, NOT, NAND, NOR, XOR), truth tables, Boolean expressions, De Morgan\'s laws, simplification, Karnaugh maps. A-level Computer Science standard only.',
+                'Component 1: Software Development': 'Only include: waterfall model, agile, prototyping, spiral model, rapid application development, testing methods, white box and black box testing. A-level Computer Science standard only.',
+                'Component 1: Algorithms': 'Only include: searching (linear, binary), sorting (bubble, merge, insertion, quick), Big O notation, dijkstra\'s algorithm, A* algorithm. A-level Computer Science standard only.',
+                'Component 1: Programming Paradigms': 'Only include: procedural, object-oriented (classes, objects, inheritance, polymorphism, encapsulation), functional programming concepts. A-level Computer Science standard only.',
+                'Component 2: Computer Architecture': 'Only include: Von Neumann architecture, fetch-decode-execute cycle, registers, buses, CPU components, cache memory, RAM, ROM. A-level Computer Science standard only.',
+                'Component 2: Communication and Networking': 'Only include: network topologies, TCP/IP model, protocols (HTTP, HTTPS, FTP, SMTP, POP3), IP addressing, subnet masks, client-server and peer-to-peer. A-level Computer Science standard only.',
+                'Component 2: Databases': 'Only include: relational databases, SQL (SELECT, INSERT, UPDATE, DELETE, JOIN), normalisation (1NF, 2NF, 3NF), entity relationship diagrams, primary and foreign keys. A-level Computer Science standard only.',
+                'Component 2: Operating Systems': 'Only include: role of OS, memory management, scheduling algorithms, interrupts, virtual memory, paging. A-level Computer Science standard only.',
+                'Component 2: Legal and Ethical Issues': 'Only include: Data Protection Act, Computer Misuse Act, Copyright law, software licenses, ethical issues in computing. A-level Computer Science standard only.',
+                'Component 2: Computational Thinking': 'Only include: abstraction, decomposition, algorithmic thinking, pattern recognition, problem solving. A-level Computer Science standard only.'
+            }
+        };
+
+        const topics = {
+            'edexcel-maths': [
+                'Pure Maths: Algebra and Functions',
+                'Pure Maths: Coordinate Geometry',
+                'Pure Maths: Sequences and Series',
+                'Pure Maths: Trigonometry',
+                'Pure Maths: Exponentials and Logarithms',
+                'Pure Maths: Differentiation',
+                'Pure Maths: Integration',
+                'Pure Maths: Vectors',
+                'Statistics: Data Collection',
+                'Statistics: Probability',
+                'Statistics: Statistical Distributions',
+                'Statistics: Hypothesis Testing',
+                'Mechanics: Kinematics',
+                'Mechanics: Forces and Newton\'s Laws',
+                'Mechanics: Moments'
+            ],
+            'edexcel-further-maths': [
+                'Further Pure: Complex Numbers',
+                'Further Pure: Matrices',
+                'Further Pure: Further Calculus',
+                'Further Pure: Further Vectors',
+                'Further Pure: Polar Coordinates',
+                'Further Pure: Hyperbolic Functions',
+                'Further Pure: Differential Equations',
+                'Further Mechanics: Momentum and Impulse',
+                'Further Mechanics: Work, Energy and Power',
+                'Further Mechanics: Elastic Collisions',
+                'Decision Maths: Algorithms',
+                'Decision Maths: Graph Theory',
+                'Decision Maths: Linear Programming'
+            ],
+            'ocr-cs': [
+                'Component 1: Data Types',
+                'Component 1: Data Structures',
+                'Component 1: Boolean Algebra',
+                'Component 1: Software Development',
+                'Component 1: Algorithms',
+                'Component 1: Programming Paradigms',
+                'Component 2: Computer Architecture',
+                'Component 2: Communication and Networking',
+                'Component 2: Databases',
+                'Component 2: Operating Systems',
+                'Component 2: Legal and Ethical Issues',
+                'Component 2: Computational Thinking'
+            ]
+        };
+
+        let currentSubject = '';
+        let currentTopic = '';
+        let currentSubjectKey = '';
+        let currentQuestion = '';
+        let currentAnswer = '';
+
+        // DOM elements
+        const subjectSelect = document.getElementById('subject-select');
+        const topicSelect = document.getElementById('topic-select');
+        const startBtn = document.getElementById('start-btn');
+        const selectionScreen = document.querySelector('.selection-screen');
+        const questionScreen = document.querySelector('.question-screen');
+        const loading = document.querySelector('.loading');
+        const questionContainer = document.getElementById('question-container');
+        const questionText = document.getElementById('question-text');
+        const answerInput = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const newQuestionBtn = document.getElementById('new-question-btn');
+        const changeTopicBtn = document.getElementById('change-topic-btn');
+        const feedback = document.getElementById('feedback');
+
+        // Load or initialize stats
+        function getStats() {
+            const statsString = localStorage.getItem('examPracticeStats');
+            if (statsString) {
+                return JSON.parse(statsString);
+            }
+            return {
+                topics: {},
+                subjects: {},
+                overall: { totalMarks: 0, earnedMarks: 0 }
+            };
+        }
+
+        function saveStats(stats) {
+            localStorage.setItem('examPracticeStats', JSON.stringify(stats));
+        }
+
+        function updateStatsDisplay() {
+            const stats = getStats();
+            
+            // Topic percentage
+            const topicKey = `${currentSubjectKey}:${currentTopic}`;
+            const topicStats = stats.topics[topicKey];
+            if (topicStats && topicStats.totalMarks > 0) {
+                const topicPercentage = Math.round((topicStats.earnedMarks / topicStats.totalMarks) * 100);
+                document.getElementById('topic-percentage').textContent = topicPercentage + '%';
+            } else {
+                document.getElementById('topic-percentage').textContent = '--%';
+            }
+
+            // Subject percentage
+            const subjectStats = stats.subjects[currentSubjectKey];
+            if (subjectStats && subjectStats.totalMarks > 0) {
+                const subjectPercentage = Math.round((subjectStats.earnedMarks / subjectStats.totalMarks) * 100);
+                document.getElementById('subject-percentage').textContent = subjectPercentage + '%';
+            } else {
+                document.getElementById('subject-percentage').textContent = '--%';
+            }
+
+            // Overall percentage
+            if (stats.overall.totalMarks > 0) {
+                const overallPercentage = Math.round((stats.overall.earnedMarks / stats.overall.totalMarks) * 100);
+                document.getElementById('overall-percentage').textContent = overallPercentage + '%';
+            } else {
+                document.getElementById('overall-percentage').textContent = '--%';
+            }
+        }
+
+        function addQuestionResult(marksEarned, totalMarks) {
+            const stats = getStats();
+            const topicKey = `${currentSubjectKey}:${currentTopic}`;
+
+            // Update topic stats
+            if (!stats.topics[topicKey]) {
+                stats.topics[topicKey] = { totalMarks: 0, earnedMarks: 0 };
+            }
+            stats.topics[topicKey].totalMarks += totalMarks;
+            stats.topics[topicKey].earnedMarks += marksEarned;
+
+            // Update subject stats
+            if (!stats.subjects[currentSubjectKey]) {
+                stats.subjects[currentSubjectKey] = { totalMarks: 0, earnedMarks: 0 };
+            }
+            stats.subjects[currentSubjectKey].totalMarks += totalMarks;
+            stats.subjects[currentSubjectKey].earnedMarks += marksEarned;
+
+            // Update overall stats
+            stats.overall.totalMarks += totalMarks;
+            stats.overall.earnedMarks += marksEarned;
+
+            saveStats(stats);
+            updateStatsDisplay();
+        }
+
+        // Update topics when subject changes
+        subjectSelect.addEventListener('change', (e) => {
+            const subject = e.target.value;
+            currentSubjectKey = subject;
+            topicSelect.innerHTML = '<option value="">-- Choose a topic --</option>';
+            
+            if (subject && topics[subject]) {
+                topics[subject].forEach(topic => {
+                    const option = document.createElement('option');
+                    option.value = topic;
+                    option.textContent = topic;
+                    topicSelect.appendChild(option);
+                });
+                topicSelect.disabled = false;
+            } else {
+                topicSelect.disabled = true;
+                startBtn.disabled = true;
+            }
+        });
+
+        // Enable start button when topic is selected
+        topicSelect.addEventListener('change', (e) => {
+            startBtn.disabled = !e.target.value;
+        });
+
+        // Start practice
+        startBtn.addEventListener('click', () => {
+            currentSubject = subjectSelect.options[subjectSelect.selectedIndex].text;
+            currentTopic = topicSelect.value;
+            
+            document.getElementById('current-subject').textContent = currentSubject;
+            document.getElementById('current-topic').textContent = currentTopic;
+            
+            selectionScreen.classList.remove('active');
+            questionScreen.classList.add('active');
+            
+            // Show math palette for maths subjects
+            const mathPalette = document.getElementById('math-palette');
+            if (currentSubjectKey === 'edexcel-maths' || currentSubjectKey === 'edexcel-further-maths') {
+                mathPalette.classList.add('show');
+            } else {
+                mathPalette.classList.remove('show');
+            }
+            
+            updateStatsDisplay();
+            generateQuestion();
+        });
+
+        // Math symbol insertion
+        document.getElementById('math-palette').addEventListener('click', (e) => {
+            if (e.target.classList.contains('math-btn')) {
+                const symbol = e.target.getAttribute('data-symbol');
+                const textarea = document.getElementById('answer-input');
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const text = textarea.value;
+                
+                // Insert symbol at cursor position
+                textarea.value = text.substring(0, start) + symbol + text.substring(end);
+                
+                // Move cursor after inserted symbol
+                textarea.selectionStart = textarea.selectionEnd = start + symbol.length;
+                textarea.focus();
+            }
+        });
+
+        // Generate question using Claude API with specification constraints
+        async function generateQuestion() {
+            loading.classList.add('show');
+            questionContainer.style.display = 'none';
+            feedback.classList.remove('show');
+            answerInput.value = '';
+
+            const specDetails = specifications[currentSubjectKey][currentTopic];
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        messages: [{
+                            role: 'user',
+                            content: `You are creating an A-level exam question for ${currentSubject}, topic: ${currentTopic}.
+
+STRICT SPECIFICATION REQUIREMENTS:
+${specDetails}
+
+IMPORTANT: The question MUST only cover topics explicitly listed in the specification above. Do NOT include any content beyond this scope.
+
+Create a realistic exam-style question that:
+- Is appropriate for A-level standard (not university level)
+- Only uses concepts from the specification listed above
+- Is clear and specific with all necessary information
+- Has multiple marks (ideally 3-6 marks) with a clear marking scheme
+- Would appear in an actual exam paper
+- Is similar in difficulty to past paper questions
+
+Format your response EXACTLY as:
+QUESTION: [the question here, including marks like "[4 marks]"]
+TOTAL_MARKS: [just the number, e.g., 4]
+ANSWER: [detailed marking scheme showing how marks are awarded]`
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const content = data.content.find(block => block.type === 'text')?.text || '';
+                
+                // Parse question and answer
+                const questionMatch = content.match(/QUESTION:\s*([\s\S]*?)TOTAL_MARKS:/);
+                const marksMatch = content.match(/TOTAL_MARKS:\s*(\d+)/);
+                const answerMatch = content.match(/ANSWER:\s*([\s\S]*)/);
+                
+                if (questionMatch && marksMatch && answerMatch) {
+                    currentQuestion = questionMatch[1].trim();
+                    currentTotalMarks = parseInt(marksMatch[1]);
+                    currentAnswer = answerMatch[1].trim();
+                    
+                    questionText.textContent = currentQuestion;
+                    loading.classList.remove('show');
+                    questionContainer.style.display = 'block';
+                    submitBtn.style.display = 'inline-block';
+                    newQuestionBtn.style.display = 'none';
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch (error) {
+                loading.classList.remove('show');
+                questionContainer.style.display = 'block';
+                questionText.textContent = 'Error generating question. Please try again.';
+                console.error('Error:', error);
+            }
+        }
+
+        // Submit answer for marking
+        submitBtn.addEventListener('click', async () => {
+            const userAnswer = answerInput.value.trim();
+            
+            if (!userAnswer) {
+                alert('Please enter an answer before submitting.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            feedback.innerHTML = '<div class="spinner"></div><p>Marking your answer...</p>';
+            feedback.className = 'feedback show';
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        messages: [{
+                            role: 'user',
+                            content: `You are marking an A-level exam question. Mark fairly but accurately according to standard marking schemes.
+
+QUESTION: ${currentQuestion}
+
+TOTAL MARKS AVAILABLE: ${currentTotalMarks}
+
+MARKING SCHEME: ${currentAnswer}
+
+STUDENT'S ANSWER: ${userAnswer}
+
+Assess the student's answer and on the FIRST LINE write ONLY:
+MARKS_AWARDED: [number out of ${currentTotalMarks}]
+
+For example: MARKS_AWARDED: 3/${currentTotalMarks}
+
+Then provide detailed feedback explaining:
+- Which marks they earned and why
+- Which marks they missed and why
+- How to improve
+
+Be fair but follow the marking scheme strictly. Award partial credit where appropriate.`
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const markingText = data.content.find(block => block.type === 'text')?.text || '';
+                
+                // Extract marks awarded
+                const marksMatch = markingText.match(/MARKS_AWARDED:\s*(\d+)/i);
+                let marksEarned = 0;
+                
+                if (marksMatch) {
+                    marksEarned = parseInt(marksMatch[1]);
+                } else {
+                    // Fallback: try to detect from text
+                    const fallbackMatch = markingText.match(/(\d+)\s*\/\s*(\d+)/);
+                    if (fallbackMatch) {
+                        marksEarned = parseInt(fallbackMatch[1]);
+                    }
+                }
+
+                marksEarned = Math.max(0, Math.min(marksEarned, currentTotalMarks));
+                
+                const percentage = Math.round((marksEarned / currentTotalMarks) * 100);
+                const feedbackText = markingText.replace(/MARKS_AWARDED:.*\n?/i, '').trim();
+
+                // Determine feedback class
+                let feedbackClass = 'feedback show ';
+                if (percentage === 100) {
+                    feedbackClass += 'correct';
+                } else if (percentage >= 50) {
+                    feedbackClass += 'partial-credit';
+                } else {
+                    feedbackClass += 'incorrect';
+                }
+
+                feedback.className = feedbackClass;
+                feedback.innerHTML = `
+                    <h3>${marksEarned}/${currentTotalMarks} marks (${percentage}%)</h3>
+                    <div class="mark-breakdown">
+                        <h4>Feedback:</h4>
+                        <p>${feedbackText}</p>
+                    </div>
+                    ${percentage < 100 ? `<p><strong>Full Marking Scheme:</strong><br>${currentAnswer}</p>` : ''}
+                `;
+
+                addQuestionResult(marksEarned, currentTotalMarks);
+                submitBtn.style.display = 'none';
+                newQuestionBtn.style.display = 'inline-block';
+                
+            } catch (error) {
+                feedback.className = 'feedback show incorrect';
+                feedback.innerHTML = '<h3>Error</h3><p>Could not mark answer. Please try again.</p>';
+                console.error('Error:', error);
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Next question
+        newQuestionBtn.addEventListener('click', () => {
+            generateQuestion();
+        });
+
+        // Change topic
+        changeTopicBtn.addEventListener('click', () => {
+            questionScreen.classList.remove('active');
+            selectionScreen.classList.add('active');
+        });
+
+        // Initialize display on load
+        updateStatsDisplay();
+    </script>
+</body>
+</html>
