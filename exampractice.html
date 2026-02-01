@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A-Level Exam Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #FEC84D;
+            --accent: #4ECDC4;
+            --purple: #9B59B6;
+            --orange: #FF8C42;
+            --green: #51CF66;
+            --blue: #5C7CFA;
+            --bg: #FFF8F0;
+            --text: #2C3E50;
+            --shadow: rgba(0, 0, 0, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,49 +28,115 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Lexend', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(254, 200, 77, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            border-radius: 20px;
+            padding: 40px;
             text-align: center;
+            box-shadow: 0 10px 40px var(--shadow);
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out 0.1s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
         }
 
         .score-board {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
-            font-size: 1.1em;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .score-item {
-            background: rgba(255,255,255,0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .score-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .score-item strong {
+            display: block;
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .score-item span {
+            font-size: 1.5em;
+            font-weight: 700;
         }
 
         .content {
+            background: white;
+            border-radius: 20px;
             padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+            border: 3px solid white;
         }
 
         .selection-screen, .question-screen {
@@ -63,86 +145,152 @@
 
         .selection-screen.active, .question-screen.active {
             display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         label {
             display: block;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--purple);
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         select, input, textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 14px 18px;
+            background: var(--bg);
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            color: var(--text);
             font-size: 1em;
-            transition: border-color 0.3s;
+            font-family: 'Lexend', sans-serif;
+            transition: all 0.3s ease;
         }
 
         select:focus, input:focus, textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239B59B6' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 45px;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         textarea {
             resize: vertical;
-            min-height: 100px;
-            font-family: inherit;
+            min-height: 150px;
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.6;
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent) 0%, #6EDFD9 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1em;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Lexend', sans-serif;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 25px rgba(78, 205, 196, 0.5);
         }
 
-        button:active {
+        button:active:not(:disabled) {
             transform: translateY(0);
         }
 
         button:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+            color: var(--text);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button.secondary:hover:not(:disabled) {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
         }
 
         .question-box {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 4px solid #667eea;
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #E0E0E0;
+            position: relative;
+        }
+
+        .question-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--purple) 100%);
+            border-radius: 15px 0 0 15px;
         }
 
         .question-text {
-            font-size: 1.15em;
-            line-height: 1.6;
-            color: #333;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: var(--text);
             white-space: pre-wrap;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .feedback {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 15px;
             display: none;
+            border: 2px solid;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .feedback.show {
@@ -150,30 +298,47 @@
         }
 
         .feedback.correct {
-            background: #d4edda;
-            border: 2px solid #28a745;
-            color: #155724;
+            background: rgba(81, 207, 102, 0.1);
+            border-color: var(--green);
         }
 
         .feedback.incorrect {
-            background: #f8d7da;
-            border: 2px solid #dc3545;
-            color: #721c24;
+            background: rgba(255, 107, 157, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feedback.partial-credit {
+            background: rgba(254, 200, 77, 0.1);
+            border-color: var(--secondary);
         }
 
         .feedback h3 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .feedback.correct h3 {
+            color: var(--green);
+        }
+
+        .feedback.incorrect h3 {
+            color: var(--primary);
+        }
+
+        .feedback.partial-credit h3 {
+            color: var(--orange);
         }
 
         .button-group {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
         }
 
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 60px 40px;
             display: none;
         }
 
@@ -182,13 +347,13 @@
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 4px solid #E0E0E0;
+            border-top: 4px solid var(--accent);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
         }
 
         @keyframes spin {
@@ -196,39 +361,50 @@
             100% { transform: rotate(360deg); }
         }
 
+        .loading p {
+            color: var(--text);
+            font-size: 1.1em;
+        }
+
         .topic-info {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #2196F3;
+            background: rgba(92, 124, 250, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(92, 124, 250, 0.3);
+            display: grid;
+            gap: 8px;
+        }
+
+        .topic-info strong {
+            color: var(--blue);
         }
 
         .mark-breakdown {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border-left: 4px solid #667eea;
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent);
         }
 
         .mark-breakdown h4 {
-            margin-bottom: 10px;
-            color: #667eea;
+            margin-bottom: 12px;
+            color: var(--accent);
+            font-size: 1em;
         }
 
-        .partial-credit {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            color: #856404;
+        .mark-breakdown p {
+            line-height: 1.7;
+            white-space: pre-wrap;
         }
 
         .math-palette {
-            background: #f8f9fa;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
+            background: var(--bg);
+            border: 2px solid #E0E0E0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
             display: none;
         }
 
@@ -237,41 +413,43 @@
         }
 
         .math-palette h4 {
-            margin: 0 0 10px 0;
-            color: #667eea;
-            font-size: 0.9em;
+            margin: 0 0 15px 0;
+            color: var(--purple);
+            font-size: 1em;
         }
 
         .math-symbols {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
         }
 
         .math-btn {
             background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 8px;
-            font-size: 1.2em;
+            border: 2px solid #E0E0E0;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 1.3em;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             font-family: 'Times New Roman', serif;
+            color: var(--text);
         }
 
         .math-btn:hover {
-            background: #667eea;
+            background: var(--accent);
+            border-color: var(--accent);
             color: white;
-            border-color: #667eea;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
         }
 
         .math-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .symbol-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .symbol-group:last-child {
@@ -281,8 +459,28 @@
         .symbol-group-title {
             font-size: 0.85em;
             color: #666;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -292,22 +490,26 @@
             <h1>📚 A-Level Exam Practice</h1>
             <div class="score-board">
                 <div class="score-item">
-                    <strong>Current Topic:</strong> <span id="topic-percentage">--%</span>
+                    <strong>Current Topic</strong>
+                    <span id="topic-percentage">--%</span>
                 </div>
                 <div class="score-item">
-                    <strong>Current Subject:</strong> <span id="subject-percentage">--%</span>
+                    <strong>Current Subject</strong>
+                    <span id="subject-percentage">--%</span>
                 </div>
                 <div class="score-item">
-                    <strong>Overall:</strong> <span id="overall-percentage">--%</span>
+                    <strong>Overall</strong>
+                    <span id="overall-percentage">--%</span>
                 </div>
             </div>
+            <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3);" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)'">🏠 Back to Menu</a>
         </div>
 
         <div class="content">
             <!-- Selection Screen -->
             <div class="selection-screen active">
                 <div class="form-group">
-                    <label for="subject-select">Select Subject:</label>
+                    <label for="subject-select">Select Subject</label>
                     <select id="subject-select">
                         <option value="">-- Choose a subject --</option>
                         <option value="edexcel-maths">Edexcel A-Level Maths</option>
@@ -317,7 +519,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="topic-select">Select Topic:</label>
+                    <label for="topic-select">Select Topic</label>
                     <select id="topic-select" disabled>
                         <option value="">-- First select a subject --</option>
                     </select>
@@ -329,8 +531,8 @@
             <!-- Question Screen -->
             <div class="question-screen">
                 <div class="topic-info">
-                    <strong>Subject:</strong> <span id="current-subject"></span><br>
-                    <strong>Topic:</strong> <span id="current-topic"></span>
+                    <div><strong>Subject:</strong> <span id="current-subject"></span></div>
+                    <div><strong>Topic:</strong> <span id="current-topic"></span></div>
                 </div>
 
                 <div class="loading">
@@ -341,6 +543,11 @@
                 <div id="question-container" style="display: none;">
                     <div class="question-box">
                         <div class="question-text" id="question-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer-input">Your Answer</label>
+                        <textarea id="answer-input" placeholder="Enter your answer here..."></textarea>
                     </div>
 
                     <div class="math-palette" id="math-palette">
@@ -442,7 +649,7 @@
                                 <button class="math-btn" data-symbol="→">→</button>
                                 <button class="math-btn" data-symbol="←">←</button>
                                 <button class="math-btn" data-symbol="↔">↔</button>
-                                <button class="math-btn" data-symbol="⃗">⃗ (vec)</button>
+                                <button class="math-btn" data-symbol="⃗">⃗</button>
                                 <button class="math-btn" data-symbol="°">°</button>
                                 <button class="math-btn" data-symbol="∠">∠</button>
                                 <button class="math-btn" data-symbol="⊥">⊥</button>
@@ -451,15 +658,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="answer-input">Your Answer:</label>
-                        <textarea id="answer-input" placeholder="Enter your answer here..."></textarea>
-                    </div>
-
                     <div class="button-group">
                         <button id="submit-btn">Submit Answer</button>
                         <button id="new-question-btn" style="display: none;">Next Question</button>
-                        <button id="change-topic-btn">Change Topic</button>
+                        <button id="change-topic-btn" class="secondary">Change Topic</button>
                     </div>
 
                     <div class="feedback" id="feedback"></div>
@@ -469,7 +671,7 @@
     </div>
 
     <script>
-        // Specification details for each subject to ensure questions stay within scope
+        // Specification details for each subject
         const specifications = {
             'edexcel-maths': {
                 'Pure Maths: Algebra and Functions': 'Only include: simplifying expressions, factorising, completing the square, quadratic equations, simultaneous equations, inequalities, functions and mappings, composite and inverse functions, transformations of graphs. A-level standard only.',
@@ -496,12 +698,15 @@
                 'Further Pure: Polar Coordinates': 'Only include: converting between polar and Cartesian, sketching polar curves, area in polar coordinates. A-level Further Maths standard only.',
                 'Further Pure: Hyperbolic Functions': 'Only include: definitions of sinh, cosh, tanh, identities, inverse hyperbolic functions, solving equations. A-level Further Maths standard only.',
                 'Further Pure: Differential Equations': 'Only include: first order differential equations, second order homogeneous equations, particular integrals. A-level Further Maths standard only.',
-                'Further Mechanics: Momentum and Impulse': 'Only include: impulse-momentum theorem, conservation of momentum, collisions in one dimension. A-level Further Maths standard only.',
-                'Further Mechanics: Work, Energy and Power': 'Only include: work done by a force, kinetic and potential energy, power, work-energy principle. A-level Further Maths standard only.',
-                'Further Mechanics: Elastic Collisions': 'Only include: coefficient of restitution, direct and oblique impacts. A-level Further Maths standard only.',
-                'Decision Maths: Algorithms': 'Only include: bubble sort, quick sort, binary search, bin packing, order of algorithms. A-level Further Maths standard only.',
-                'Decision Maths: Graph Theory': 'Only include: graphs and trees, Kruskal\'s and Prim\'s algorithms, Dijkstra\'s algorithm, route inspection. A-level Further Maths standard only.',
-                'Decision Maths: Linear Programming': 'Only include: formulating problems, graphical solutions, simplex method. A-level Further Maths standard only.'
+                'Further Mechanics 1: Momentum and Impulse': 'Only include: impulse-momentum theorem, conservation of momentum, collisions in one dimension, Newton\'s law of restitution. A-level Further Maths standard only.',
+                'Further Mechanics 1: Work, Energy and Power': 'Only include: work done by a force, kinetic and potential energy, conservation of energy, power, work-energy principle, efficiency. A-level Further Maths standard only.',
+                'Further Mechanics 1: Elastic Strings and Springs': 'Only include: Hooke\'s law, elastic potential energy, elastic strings and springs in equilibrium, vertical motion with elastic strings/springs. A-level Further Maths standard only.',
+                'Further Mechanics 1: Elastic Collisions': 'Only include: coefficient of restitution, direct and oblique impacts, Newton\'s experimental law, loss of kinetic energy. A-level Further Maths standard only.',
+                'Further Stats 1: Discrete Random Variables': 'Only include: discrete random variables, probability distributions, expectation and variance, E(aX+b), Var(aX+b), cumulative distribution functions. A-level Further Maths standard only.',
+                'Further Stats 1: Poisson Distribution': 'Only include: Poisson distribution as a model, mean and variance, using Poisson tables, Poisson approximation to binomial. A-level Further Maths standard only.',
+                'Further Stats 1: Continuous Random Variables': 'Only include: continuous random variables, probability density functions, cumulative distribution functions, median and quartiles, expectation and variance. A-level Further Maths standard only.',
+                'Further Stats 1: Chi-squared Tests': 'Only include: goodness of fit test, contingency tables, degrees of freedom, critical values, expected frequencies. A-level Further Maths standard only.',
+                'Further Stats 1: Probability Generating Functions': 'Only include: probability generating functions, finding mean and variance using PGFs, sum of independent random variables. A-level Further Maths standard only.'
             },
             'ocr-cs': {
                 'Component 1: Data Types': 'Only include: primitive data types (integer, real, boolean, character, string), representation of numbers (binary, hex, two\'s complement, floating point), ASCII and Unicode. A-level Computer Science standard only.',
@@ -545,12 +750,15 @@
                 'Further Pure: Polar Coordinates',
                 'Further Pure: Hyperbolic Functions',
                 'Further Pure: Differential Equations',
-                'Further Mechanics: Momentum and Impulse',
-                'Further Mechanics: Work, Energy and Power',
-                'Further Mechanics: Elastic Collisions',
-                'Decision Maths: Algorithms',
-                'Decision Maths: Graph Theory',
-                'Decision Maths: Linear Programming'
+                'Further Mechanics 1: Momentum and Impulse',
+                'Further Mechanics 1: Work, Energy and Power',
+                'Further Mechanics 1: Elastic Strings and Springs',
+                'Further Mechanics 1: Elastic Collisions',
+                'Further Stats 1: Discrete Random Variables',
+                'Further Stats 1: Poisson Distribution',
+                'Further Stats 1: Continuous Random Variables',
+                'Further Stats 1: Chi-squared Tests',
+                'Further Stats 1: Probability Generating Functions'
             ],
             'ocr-cs': [
                 'Component 1: Data Types',
@@ -573,6 +781,7 @@
         let currentSubjectKey = '';
         let currentQuestion = '';
         let currentAnswer = '';
+        let currentTotalMarks = 0;
 
         // DOM elements
         const subjectSelect = document.getElementById('subject-select');
@@ -729,7 +938,7 @@
             }
         });
 
-        // Generate question using Claude API with specification constraints
+        // Generate question using Claude API
         async function generateQuestion() {
             loading.classList.add('show');
             questionContainer.style.display = 'none';
@@ -742,11 +951,12 @@
                 const response = await fetch('https://api.anthropic.com/v1/messages', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'x-api-key': 'YOUR_API_KEY_HERE'
                     },
                     body: JSON.stringify({
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000,
+                        max_tokens: 1024,
                         messages: [{
                             role: 'user',
                             content: `You are creating an A-level exam question for ${currentSubject}, topic: ${currentTopic}.
@@ -772,11 +982,15 @@ ANSWER: [detailed marking scheme showing how marks are awarded]`
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
                 const data = await response.json();
                 const content = data.content.find(block => block.type === 'text')?.text || '';
                 
                 // Parse question and answer
-                const questionMatch = content.match(/QUESTION:\s*([\s\S]*?)TOTAL_MARKS:/);
+                const questionMatch = content.match(/QUESTION:\s*([\s\S]*?)(?=TOTAL_MARKS:)/);
                 const marksMatch = content.match(/TOTAL_MARKS:\s*(\d+)/);
                 const answerMatch = content.match(/ANSWER:\s*([\s\S]*)/);
                 
@@ -796,7 +1010,7 @@ ANSWER: [detailed marking scheme showing how marks are awarded]`
             } catch (error) {
                 loading.classList.remove('show');
                 questionContainer.style.display = 'block';
-                questionText.textContent = 'Error generating question. Please try again.';
+                questionText.textContent = 'Error generating question. Please try again.\n\nNote: Make sure you have a valid API key configured.';
                 console.error('Error:', error);
             }
         }
@@ -818,11 +1032,12 @@ ANSWER: [detailed marking scheme showing how marks are awarded]`
                 const response = await fetch('https://api.anthropic.com/v1/messages', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'x-api-key': 'YOUR_API_KEY_HERE'
                     },
                     body: JSON.stringify({
                         model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1000,
+                        max_tokens: 1024,
                         messages: [{
                             role: 'user',
                             content: `You are marking an A-level exam question. Mark fairly but accurately according to standard marking schemes.
@@ -850,6 +1065,10 @@ Be fair but follow the marking scheme strictly. Award partial credit where appro
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
                 const data = await response.json();
                 const markingText = data.content.find(block => block.type === 'text')?.text || '';
                 
@@ -860,7 +1079,6 @@ Be fair but follow the marking scheme strictly. Award partial credit where appro
                 if (marksMatch) {
                     marksEarned = parseInt(marksMatch[1]);
                 } else {
-                    // Fallback: try to detect from text
                     const fallbackMatch = markingText.match(/(\d+)\s*\/\s*(\d+)/);
                     if (fallbackMatch) {
                         marksEarned = parseInt(fallbackMatch[1]);
@@ -889,7 +1107,7 @@ Be fair but follow the marking scheme strictly. Award partial credit where appro
                         <h4>Feedback:</h4>
                         <p>${feedbackText}</p>
                     </div>
-                    ${percentage < 100 ? `<p><strong>Full Marking Scheme:</strong><br>${currentAnswer}</p>` : ''}
+                    ${percentage < 100 ? `<div class="mark-breakdown"><h4>Full Marking Scheme:</h4><p>${currentAnswer}</p></div>` : ''}
                 `;
 
                 addQuestionResult(marksEarned, currentTotalMarks);
@@ -898,7 +1116,7 @@ Be fair but follow the marking scheme strictly. Award partial credit where appro
                 
             } catch (error) {
                 feedback.className = 'feedback show incorrect';
-                feedback.innerHTML = '<h3>Error</h3><p>Could not mark answer. Please try again.</p>';
+                feedback.innerHTML = '<h3>Error</h3><p>Could not mark answer. Please check your API configuration and try again.</p>';
                 console.error('Error:', error);
             } finally {
                 submitBtn.disabled = false;
