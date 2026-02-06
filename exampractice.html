@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* 🔹 EVERYTHING IN HERE IS UNCHANGED 🔹 */
         :root {
             --primary: #FF6B9D;
             --secondary: #FEC84D;
@@ -21,137 +20,743 @@
             --text: #2C3E50;
             --shadow: rgba(0, 0, 0, 0.15);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Lexend', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
-        /* (all remaining CSS unchanged) */
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(254, 200, 77, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px var(--shadow);
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out 0.1s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            color: white;
+        }
+
+        .score-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .score-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .score-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .score-item strong {
+            display: block;
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .score-item span {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+            border: 3px solid white;
+        }
+
+        .selection-screen, .question-screen {
+            display: none;
+        }
+
+        .selection-screen.active, .question-screen.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--purple);
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg);
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 1em;
+            font-family: 'Lexend', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239B59B6' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 45px;
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.6;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent) 0%, #6EDFD9 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Lexend', sans-serif;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(78, 205, 196, 0.5);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        button.secondary {
+            background: linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%);
+            color: var(--text);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button.secondary:hover:not(:disabled) {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-box {
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #E0E0E0;
+            position: relative;
+        }
+
+        .question-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--purple) 100%);
+            border-radius: 15px 0 0 15px;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: var(--text);
+            white-space: pre-wrap;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .mark-scheme {
+            background: rgba(81, 207, 102, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 4px solid var(--green);
+            display: none;
+        }
+
+        .mark-scheme.show {
+            display: block;
+        }
+
+        .mark-scheme h4 {
+            margin-bottom: 12px;
+            color: var(--green);
+            font-size: 1em;
+        }
+
+        .mark-scheme p {
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .self-mark-section {
+            background: var(--bg);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #E0E0E0;
+            display: none;
+        }
+
+        .self-mark-section.show {
+            display: block;
+        }
+
+        .mark-inputs {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .mark-inputs label {
+            margin: 0;
+            text-transform: none;
+            font-size: 1em;
+        }
+
+        .mark-inputs input[type="number"] {
+            width: 100px;
+            padding: 10px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .mark-inputs span {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 40px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading p {
+            color: var(--text);
+            font-size: 1.1em;
+        }
+
+        .topic-info {
+            background: rgba(92, 124, 250, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(92, 124, 250, 0.3);
+            display: grid;
+            gap: 8px;
+        }
+
+        .topic-info strong {
+            color: var(--blue);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 25px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .mark-inputs {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
-
 <body>
-<div class="container">
-    <div class="header">
-        <h1>📚 A-Level Exam Practice</h1>
-        <div class="score-board">
-            <div class="score-item"><strong>Current Topic</strong><span id="topic-percentage">--%</span></div>
-            <div class="score-item"><strong>Current Subject</strong><span id="subject-percentage">--%</span></div>
-            <div class="score-item"><strong>Overall</strong><span id="overall-percentage">--%</span></div>
-        </div>
-        <a href="index.html" class="back-link">🏠 Back to Menu</a>
-    </div>
-
-    <div class="content">
-
-        <!-- SELECTION SCREEN -->
-        <div class="selection-screen active">
-            <div class="form-group">
-                <label for="subject-select">Select Subject</label>
-                <select id="subject-select">
-                    <option value="">-- Choose a subject --</option>
-                    <option value="edexcel-maths">Edexcel A-Level Maths</option>
-                    <option value="edexcel-further-maths">Edexcel A-Level Further Maths</option>
-                    <option value="ocr-cs">OCR A-Level Computer Science</option>
-                </select>
+    <div class="container">
+        <div class="header">
+            <h1>📚 A-Level Exam Practice</h1>
+            <div class="score-board">
+                <div class="score-item">
+                    <strong>Current Topic</strong>
+                    <span id="topic-percentage">--%</span>
+                </div>
+                <div class="score-item">
+                    <strong>Current Subject</strong>
+                    <span id="subject-percentage">--%</span>
+                </div>
+                <div class="score-item">
+                    <strong>Overall</strong>
+                    <span id="overall-percentage">--%</span>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="topic-select">Select Topic</label>
-                <select id="topic-select" disabled>
-                    <option value="">-- First select a subject --</option>
-                </select>
-            </div>
-
-            <button id="start-btn" disabled>Start Practice</button>
+            <a href="index.html" class="back-link">🏠 Back to Menu</a>
         </div>
 
-        <!-- QUESTION SCREEN -->
-        <div class="question-screen">
-            <div class="topic-info">
-                <div><strong>Subject:</strong> <span id="current-subject"></span></div>
-                <div><strong>Topic:</strong> <span id="current-topic"></span></div>
-            </div>
-
-            <div class="loading"><p>Loading question...</p></div>
-
-            <div id="question-container" style="display:none;">
-                <div class="question-box">
-                    <div class="question-text" id="question-text"></div>
+        <div class="content">
+            <!-- Selection Screen -->
+            <div class="selection-screen active">
+                <div class="form-group">
+                    <label for="subject-select">Select Subject</label>
+                    <select id="subject-select">
+                        <option value="">-- Choose a subject --</option>
+                        <option value="edexcel-maths">Edexcel A-Level Maths</option>
+                        <option value="edexcel-further-maths">Edexcel A-Level Further Maths</option>
+                        <option value="ocr-cs">OCR A-Level Computer Science</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="answer-input">Your Answer</label>
-                    <textarea id="answer-input"></textarea>
+                    <label for="topic-select">Select Topic</label>
+                    <select id="topic-select" disabled>
+                        <option value="">-- First select a subject --</option>
+                    </select>
                 </div>
 
-                <div class="button-group">
-                    <button id="show-mark-scheme-btn">Show Mark Scheme</button>
-                    <button id="change-topic-btn" class="secondary">Change Topic</button>
+                <button id="start-btn" disabled>Start Practice</button>
+            </div>
+
+            <!-- Question Screen -->
+            <div class="question-screen">
+                <div class="topic-info">
+                    <div><strong>Subject:</strong> <span id="current-subject"></span></div>
+                    <div><strong>Topic:</strong> <span id="current-topic"></span></div>
                 </div>
 
-                <div class="mark-scheme" id="mark-scheme">
-                    <h4>📝 Mark Scheme</h4>
-                    <p id="mark-scheme-text"></p>
+                <div class="loading">
+                    <p>Loading question...</p>
                 </div>
 
-                <div class="self-mark-section" id="self-mark-section">
-                    <div class="mark-inputs">
-                        <label>Marks earned:</label>
-                        <input type="number" id="marks-earned" value="0">
-                        <span>out of <span id="total-marks-display"></span></span>
+                <div id="question-container" style="display: none;">
+                    <div class="question-box">
+                        <div class="question-text" id="question-text"></div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="answer-input">Your Answer</label>
+                        <textarea id="answer-input" placeholder="Write your answer here..."></textarea>
+                    </div>
+
                     <div class="button-group">
-                        <button id="submit-marks-btn">Submit Score</button>
-                        <button id="next-question-btn" style="display:none;">Next Question</button>
+                        <button id="show-mark-scheme-btn">Show Mark Scheme</button>
+                        <button id="change-topic-btn" class="secondary">Change Topic</button>
+                    </div>
+
+                    <div class="mark-scheme" id="mark-scheme">
+                        <h4>📝 Mark Scheme</h4>
+                        <p id="mark-scheme-text"></p>
+                    </div>
+
+                    <div class="self-mark-section" id="self-mark-section">
+                        <h4 style="margin-bottom: 15px; color: var(--purple);">Mark Your Answer</h4>
+                        <p style="margin-bottom: 15px;">Compare your answer with the mark scheme above and award yourself marks based on what you got correct.</p>
+                        <div class="mark-inputs">
+                            <label for="marks-earned">Marks earned:</label>
+                            <input type="number" id="marks-earned" min="0" max="10" value="0">
+                            <span>out of <span id="total-marks-display">0</span></span>
+                        </div>
+                        <div class="button-group">
+                            <button id="submit-marks-btn">Submit Score</button>
+                            <button id="next-question-btn" style="display: none;">Next Question</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- 🔹 QUESTION DATA -->
-<script src="questionbank.js"></script>
+    <script src="questionbank.js"></script>
+    <script>
+        let currentSubject = '';
+        let currentTopic = '';
+        let currentSubjectKey = '';
+        let currentQuestion = null;
+        let usedQuestions = {};
 
-<script>
-let currentSubjectKey = '';
-let currentSubject = '';
-let currentTopic = '';
-let currentQuestion = null;
-let usedQuestions = {};
+        // DOM elements
+        const subjectSelect = document.getElementById('subject-select');
+        const topicSelect = document.getElementById('topic-select');
+        const startBtn = document.getElementById('start-btn');
+        const selectionScreen = document.querySelector('.selection-screen');
+        const questionScreen = document.querySelector('.question-screen');
+        const loading = document.querySelector('.loading');
+        const questionContainer = document.getElementById('question-container');
+        const questionText = document.getElementById('question-text');
+        const answerInput = document.getElementById('answer-input');
+        const showMarkSchemeBtn = document.getElementById('show-mark-scheme-btn');
+        const changeTopicBtn = document.getElementById('change-topic-btn');
+        const markScheme = document.getElementById('mark-scheme');
+        const markSchemeText = document.getElementById('mark-scheme-text');
+        const selfMarkSection = document.getElementById('self-mark-section');
+        const marksEarnedInput = document.getElementById('marks-earned');
+        const totalMarksDisplay = document.getElementById('total-marks-display');
+        const submitMarksBtn = document.getElementById('submit-marks-btn');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
 
-const subjectSelect = document.getElementById('subject-select');
-const topicSelect = document.getElementById('topic-select');
-const startBtn = document.getElementById('start-btn');
+        // Stats functions
+        function getStats() {
+            const statsString = localStorage.getItem('examPracticeStats');
+            if (statsString) {
+                return JSON.parse(statsString);
+            }
+            return {
+                topics: {},
+                subjects: {},
+                overall: { totalMarks: 0, earnedMarks: 0 }
+            };
+        }
 
-/* ✅ FIX: derive topics from questionBank */
-subjectSelect.addEventListener('change', e => {
-    currentSubjectKey = e.target.value;
-    topicSelect.innerHTML = '<option value="">-- Choose a topic --</option>';
-    startBtn.disabled = true;
+        function saveStats(stats) {
+            localStorage.setItem('examPracticeStats', JSON.stringify(stats));
+        }
 
-    if (currentSubjectKey && questionBank[currentSubjectKey]) {
-        Object.keys(questionBank[currentSubjectKey]).forEach(topic => {
-            const option = document.createElement('option');
-            option.value = topic;
-            option.textContent = topic;
-            topicSelect.appendChild(option);
+        function updateStatsDisplay() {
+            const stats = getStats();
+            
+            const topicKey = `${currentSubjectKey}:${currentTopic}`;
+            const topicStats = stats.topics[topicKey];
+            if (topicStats && topicStats.totalMarks > 0) {
+                const topicPercentage = Math.round((topicStats.earnedMarks / topicStats.totalMarks) * 100);
+                document.getElementById('topic-percentage').textContent = topicPercentage + '%';
+            } else {
+                document.getElementById('topic-percentage').textContent = '--%';
+            }
+
+            const subjectStats = stats.subjects[currentSubjectKey];
+            if (subjectStats && subjectStats.totalMarks > 0) {
+                const subjectPercentage = Math.round((subjectStats.earnedMarks / subjectStats.totalMarks) * 100);
+                document.getElementById('subject-percentage').textContent = subjectPercentage + '%';
+            } else {
+                document.getElementById('subject-percentage').textContent = '--%';
+            }
+
+            if (stats.overall.totalMarks > 0) {
+                const overallPercentage = Math.round((stats.overall.earnedMarks / stats.overall.totalMarks) * 100);
+                document.getElementById('overall-percentage').textContent = overallPercentage + '%';
+            } else {
+                document.getElementById('overall-percentage').textContent = '--%';
+            }
+        }
+
+        function addQuestionResult(marksEarned, totalMarks) {
+            const stats = getStats();
+            const topicKey = `${currentSubjectKey}:${currentTopic}`;
+
+            if (!stats.topics[topicKey]) {
+                stats.topics[topicKey] = { totalMarks: 0, earnedMarks: 0 };
+            }
+            stats.topics[topicKey].totalMarks += totalMarks;
+            stats.topics[topicKey].earnedMarks += marksEarned;
+
+            if (!stats.subjects[currentSubjectKey]) {
+                stats.subjects[currentSubjectKey] = { totalMarks: 0, earnedMarks: 0 };
+            }
+            stats.subjects[currentSubjectKey].totalMarks += totalMarks;
+            stats.subjects[currentSubjectKey].earnedMarks += marksEarned;
+
+            stats.overall.totalMarks += totalMarks;
+            stats.overall.earnedMarks += marksEarned;
+
+            saveStats(stats);
+            updateStatsDisplay();
+        }
+
+        // Topic selection
+        subjectSelect.addEventListener('change', (e) => {
+            const subject = e.target.value;
+            currentSubjectKey = subject;
+            topicSelect.innerHTML = '<option value="">-- Choose a topic --</option>';
+            
+            if (subject && topics[subject]) {
+                topics[subject].forEach(topic => {
+                    const option = document.createElement('option');
+                    option.value = topic;
+                    option.textContent = topic;
+                    topicSelect.appendChild(option);
+                });
+                topicSelect.disabled = false;
+            } else {
+                topicSelect.disabled = true;
+                startBtn.disabled = true;
+            }
         });
-        topicSelect.disabled = false;
-    } else {
-        topicSelect.disabled = true;
-    }
-});
 
-topicSelect.addEventListener('change', e => {
-    startBtn.disabled = !e.target.value;
-});
+        topicSelect.addEventListener('change', (e) => {
+            startBtn.disabled = !e.target.value;
+        });
 
-/* EVERYTHING ELSE BELOW IS UNCHANGED */
-</script>
+        // Start practice
+        startBtn.addEventListener('click', () => {
+            currentSubject = subjectSelect.options[subjectSelect.selectedIndex].text;
+            currentTopic = topicSelect.value;
+            
+            document.getElementById('current-subject').textContent = currentSubject;
+            document.getElementById('current-topic').textContent = currentTopic;
+            
+            selectionScreen.classList.remove('active');
+            questionScreen.classList.add('active');
+            
+            updateStatsDisplay();
+            generateQuestion();
+        });
+
+        // Generate question
+        function generateQuestion() {
+            loading.classList.add('show');
+            questionContainer.style.display = 'none';
+            markScheme.classList.remove('show');
+            selfMarkSection.classList.remove('show');
+            answerInput.value = '';
+            showMarkSchemeBtn.textContent = 'Show Mark Scheme';
+            nextQuestionBtn.style.display = 'none';
+
+            setTimeout(() => {
+                const topicQuestions = questionBank[currentSubjectKey]?.[currentTopic];
+                
+                if (!topicQuestions || topicQuestions.length === 0) {
+                    loading.classList.remove('show');
+                    questionContainer.style.display = 'block';
+                    questionText.textContent = 'No questions available for this topic yet.';
+                    return;
+                }
+
+                const topicKey = `${currentSubjectKey}:${currentTopic}`;
+                if (!usedQuestions[topicKey]) {
+                    usedQuestions[topicKey] = [];
+                }
+
+                let availableQuestions = topicQuestions.filter((q, index) => 
+                    !usedQuestions[topicKey].includes(index)
+                );
+
+                if (availableQuestions.length === 0) {
+                    usedQuestions[topicKey] = [];
+                    availableQuestions = topicQuestions;
+                }
+
+                const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+                currentQuestion = availableQuestions[randomIndex];
+                
+                const originalIndex = topicQuestions.indexOf(currentQuestion);
+                usedQuestions[topicKey].push(originalIndex);
+
+                questionText.textContent = currentQuestion.question;
+                markSchemeText.textContent = currentQuestion.markScheme;
+                totalMarksDisplay.textContent = currentQuestion.totalMarks;
+                marksEarnedInput.max = currentQuestion.totalMarks;
+                marksEarnedInput.value = 0;
+
+                loading.classList.remove('show');
+                questionContainer.style.display = 'block';
+            }, 500);
+        }
+
+        // Show mark scheme
+        showMarkSchemeBtn.addEventListener('click', () => {
+            if (markScheme.classList.contains('show')) {
+                markScheme.classList.remove('show');
+                selfMarkSection.classList.remove('show');
+                showMarkSchemeBtn.textContent = 'Show Mark Scheme';
+            } else {
+                markScheme.classList.add('show');
+                selfMarkSection.classList.add('show');
+                showMarkSchemeBtn.textContent = 'Hide Mark Scheme';
+            }
+        });
+
+        // Submit marks
+        submitMarksBtn.addEventListener('click', () => {
+            const marksEarned = parseInt(marksEarnedInput.value) || 0;
+            const totalMarks = currentQuestion.totalMarks;
+
+            if (marksEarned > totalMarks) {
+                alert(`Marks cannot exceed ${totalMarks}!`);
+                return;
+            }
+
+            addQuestionResult(marksEarned, totalMarks);
+            
+            submitMarksBtn.style.display = 'none';
+            nextQuestionBtn.style.display = 'inline-block';
+            marksEarnedInput.disabled = true;
+
+            const percentage = Math.round((marksEarned / totalMarks) * 100);
+            let message = '';
+            if (percentage === 100) {
+                message = '🎉 Perfect! Well done!';
+            } else if (percentage >= 75) {
+                message = '✅ Great work!';
+            } else if (percentage >= 50) {
+                message = '👍 Good effort!';
+            } else {
+                message = '📚 Keep practicing!';
+            }
+
+            alert(`Score recorded: ${marksEarned}/${totalMarks} (${percentage}%)\n${message}`);
+        });
+
+        // Next question
+        nextQuestionBtn.addEventListener('click', () => {
+            marksEarnedInput.disabled = false;
+            submitMarksBtn.style.display = 'inline-block';
+            generateQuestion();
+        });
+
+        // Change topic
+        changeTopicBtn.addEventListener('click', () => {
+            questionScreen.classList.remove('active');
+            selectionScreen.classList.add('active');
+        });
+
+        updateStatsDisplay();
+    </script>
 </body>
 </html>
