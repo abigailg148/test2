@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Polyhedral Die Bias Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 850px;
+            margin: 40px auto;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+        }
+        input, button {
+            font-size: 1rem;
+            padding: 6px 10px;
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .fair {
+            color: green;
+        }
+        .unfair {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Polyhedral Die Fairness & Bias Tester 🎲</h1>
+
+<label>
+    Number of sides:
+    <input type="number" id="sidesInput" min="2" value="6">
+</label>
+<button onclick="setSides()">Set Die</button>
+<button onclick="resetData()">Reset Rolls</button>
+
+<br><br>
+
+<label>
+    Enter roll:
+    <input type="number" id="rollInput">
+</label>
+<button onclick="addRoll()">Add Roll</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Face</th>
+            <th>Observed</th>
+            <th>Expected</th>
+        </tr>
+    </thead>
+    <tbody id="resultsTable"></tbody>
+</table>
+
+<div class="result" id="chiResult"></div>
+
+<script>
+    let sides = 6;
+    let counts = [];
+    const ALPHA = 0.01; // 1% significance level
+
+    function setSides() {
+        const value = Number(document.getElementById("sidesInput").value);
+        if (value < 2 || !Number.isInteger(value)) {
+            alert("Number of sides must be an integer ≥ 2.");
+            return;
+        }
+        sides = value;
+        resetData();
+    }
+
+    function resetData() {
+        counts = new Array(sides).fill(0);
+        updateDisplay();
+    }
+
+    function addRoll() {
+        const value = Number(document.getElementById("rollInput").value);
+        if (!Number.isInteger(value) || value < 1 || value > sides) {
+            alert(`Please enter a whole number between 1 and ${sides}.`);
+            return;
+        }
+        counts[value - 1]++;
+        document.getElementById("rollInput").value = "";
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        const tableBody = document.getElementById("resultsTable");
+        const totalRolls = counts.reduce((a, b) => a + b, 0);
+        const expected = totalRolls / sides;
+
+        tableBody.innerHTML = "";
+
+        for (let i = 0; i < sides; i++) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${i + 1}</td>
+                <td>${counts[i]}</td>
+                <td>${totalRolls === 0 ? "-" : expected.toFixed(2)}</td>
+            `;
+            tableBody.appendChild(row);
+        }
+
+        calculateStats(totalRolls, expected);
+    }
+
+    function calculateStats(total, expected) {
+        const resultDiv = document.getElementById("chiResult");
+
+        if (total === 0) {
+            resultDiv.textContent = "";
+            return;
+        }
+
+        /* ---- Chi-squared ---- */
+        let chiSquared = 0;
+        for (let i = 0; i < sides; i++) {
+            chiSquared += Math.pow(counts[i] - expected, 2) / expected;
+        }
+
+        const df = sides - 1;
+        const pValue = chiSquaredPValue(chiSquared, df);
+
+        /* ---- Bias direction via mean ---- */
+        let observedSum = 0;
+        for (let i = 0; i < sides; i++) {
+            observedSum += counts[i] * (i + 1);
+        }
+
+        const observedMean = observedSum / total;
+        const expectedMean = (sides + 1) / 2;
+
+        let biasDirection = "No directional bias detected";
+        if (pValue < ALPHA) {
+            if (observedMean > expectedMean) {
+                biasDirection = "Biased toward higher numbers";
+            } else if (observedMean < expectedMean) {
+                biasDirection = "Biased toward lower numbers";
+            }
+        }
+
+        resultDiv.innerHTML = `
+            χ² = ${chiSquared.toFixed(3)}<br>
+            Degrees of freedom = ${df}<br>
+            p-value ≈ ${pValue.toFixed(4)}<br>
+            Significance level α = 0.01<br><br>
+
+            ${
+                pValue >= ALPHA
+                ? `<span class="fair">No significant evidence of unfairness</span>`
+                : `<span class="unfair">Significant evidence the die is unfair</span>`
+            }
+            <br><br>
+            Observed mean = ${observedMean.toFixed(3)}<br>
+            Expected mean = ${expectedMean.toFixed(3)}<br>
+            <strong>${biasDirection}</strong>
+        `;
+    }
+
+    /* ---- Chi-squared p-value (incomplete gamma) ---- */
+    function chiSquaredPValue(x, k) {
+        return gammaincc(k / 2, x / 2);
+    }
+
+    function gammaincc(a, x) {
+        if (x < 0 || a <= 0) return NaN;
+        if (x < a + 1) {
+            return 1 - gammaincSeries(a, x);
+        } else {
+            return gammaincCF(a, x);
+        }
+    }
+
+    function gammaincSeries(a, x) {
+        let sum = 1 / a;
+        let value = sum;
+        for (let n = 1; n < 100; n++) {
+            sum *= x / (a + n);
+            value += sum;
+        }
+        return value * Math.exp(-x + a * Math.log(x) - logGamma(a));
+    }
+
+    function gammaincCF(a, x) {
+        let b = x + 1 - a;
+        let c = 1 / 1e-30;
+        let d = 1 / b;
+        let h = d;
+
+        for (let i = 1; i < 100; i++) {
+            let an = -i * (i - a);
+            b += 2;
+            d = an * d + b;
+            if (Math.abs(d) < 1e-30) d = 1e-30;
+            c = b + an / c;
+            if (Math.abs(c) < 1e-30) c = 1e-30;
+            d = 1 / d;
+            h *= d * c;
+        }
+
+        return Math.exp(-x + a * Math.log(x) - logGamma(a)) * h;
+    }
+
+    function logGamma(z) {
+        const cof = [
+            76.18009172947146, -86.50532032941677,
+            24.01409824083091, -1.231739572450155,
+            0.001208650973866179, -0.000005395239384953
+        ];
+        let x = z;
+        let y = z;
+        let tmp = x + 5.5;
+        tmp -= (x + 0.5) * Math.log(tmp);
+        let ser = 1.000000000190015;
+        for (let j = 0; j < cof.length; j++) {
+            ser += cof[j] / ++y;
+        }
+        return Math.log(2.5066282746310005 * ser / x) - tmp;
+    }
+
+    setSides();
+</script>
+
+</body>
+</html>
