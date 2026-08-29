@@ -173,6 +173,11 @@
       animation-delay: 0.7s;
     }
 
+    .nav-button.game-5 {
+      background: linear-gradient(135deg, #FF9EBB 0%, #B49CFF 100%);
+      animation-delay: 0.8s;
+    }
+
     .nav-button::before {
       content: '';
       position: absolute;
@@ -252,6 +257,16 @@
       40% { transform: scale(1.35); }
       70% { transform: scale(0.9); }
       100% { transform: scale(1); }
+    }
+
+    .nav-button.game-5:hover .button-icon {
+      animation: pounce 0.4s ease-out;
+    }
+
+    @keyframes pounce {
+      0% { transform: translateY(0) rotate(0deg); }
+      40% { transform: translateY(-8px) rotate(-10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
     }
 
     .button-text {
@@ -368,6 +383,11 @@
       <a href="2048.html" class="nav-button game-4">
         <span class="button-text">2048</span>
         <span class="button-icon">🟣</span>
+      </a>
+
+      <a href="pocket-arena.html" class="nav-button game-5">
+        <span class="button-text">Pocket Arena</span>
+        <span class="button-icon">🐾</span>
       </a>
     </div>
   </div>
