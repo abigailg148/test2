@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&D Campaigns</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #FF6B9D;
+      --secondary: #FEC84D;
+      --accent: #4ECDC4;
+      --purple: #9B59B6;
+      --bg: #FFF8F0;
+      --text: #2C3E50;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(254, 200, 77, 0.1) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      33% {
+        transform: translate(30px, -30px) rotate(120deg);
+      }
+      66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+      }
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--purple) 50%,
+        var(--accent) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .description {
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+      color: #667085;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .nav-button {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 1.5rem 2rem;
+      border: none;
+      border-radius: 20px;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .download-button {
+      background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--purple) 100%
+      );
+    }
+
+    .back-button {
+      background: linear-gradient(
+        135deg,
+        var(--accent) 0%,
+        #6EDFD9 100%
+      );
+    }
+
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .nav-button:hover::before {
+      width: 500px;
+      height: 500px;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px var(--shadow);
+    }
+
+    .nav-button:active {
+      transform: translateY(-2px);
+    }
+
+    .button-text,
+    .button-icon {
+      position: relative;
+      z-index: 1;
+    }
+
+    .button-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-button:hover .button-icon {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-button {
+        font-size: 1.1rem;
+        padding: 1.25rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>D&D Campaigns</h1>
+
+    <p class="description">
+      Download the complete collection of D&D campaigns.
+    </p>
+
+    <div class="button-group">
+
+      <a href="D%26D%20Campaigns.zip" download class="nav-button download-button">
+        <span class="button-text">Download Campaigns</span>
+        <span class="button-icon">📦</span>
+      </a>
+
+      <a href="index.html" class="nav-button back-button">
+        <span class="button-text">Back to Main Menu</span>
+        <span class="button-icon">🏠</span>
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
