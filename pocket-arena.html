@@ -8,21 +8,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
 
 :root{
-  --cream:#FFF9F2;
-  --card:#FFFFFF;
-  --pink:#FFD3E0;
-  --pink-deep:#FF9EBB;
-  --mint:#C7F3E3;
-  --mint-deep:#6FD9B8;
-  --lav:#E3D9FF;
-  --lav-deep:#B49CFF;
-  --sun:#FFE49A;
-  --sun-deep:#FFC94D;
-  --ink:#3B3153;
-  --ink-soft:#7A7192;
-  --line:#F0E4EE;
-  --danger:#FF7A8A;
-  --shadow: 0 6px 0 rgba(59,49,83,0.08);
+  --cream:#FFF9F2; --card:#FFFFFF; --pink:#FFD3E0; --pink-deep:#FF9EBB;
+  --mint:#C7F3E3; --mint-deep:#6FD9B8; --lav:#E3D9FF; --lav-deep:#B49CFF;
+  --sun:#FFE49A; --sun-deep:#FFC94D; --ink:#3B3153; --ink-soft:#7A7192;
+  --line:#F0E4EE; --danger:#FF7A8A; --shadow: 0 6px 0 rgba(59,49,83,0.08);
 }
 *{box-sizing:border-box;}
 body{
@@ -31,15 +20,11 @@ body{
     radial-gradient(circle at 12% 8%, #FFE9F1 0%, transparent 40%),
     radial-gradient(circle at 88% 12%, #E4F7EE 0%, transparent 40%),
     var(--cream);
-  color:var(--ink);
-  font-family:'Nunito',sans-serif;
-  min-height:100vh;
-  padding-bottom:60px;
+  color:var(--ink); font-family:'Nunito',sans-serif; min-height:100vh; padding-bottom:60px;
 }
 h1,h2,h3,.display{ font-family:'Fredoka',sans-serif; }
-
 header{ padding:28px 24px 18px; text-align:center; }
-header h1{ font-size:2.1rem; margin:0 0 4px; color:var(--ink); letter-spacing:0.5px; }
+header h1{ font-size:2.1rem; margin:0 0 4px; letter-spacing:0.5px; }
 header h1 span{ color:var(--pink-deep); }
 header p{ margin:0; color:var(--ink-soft); font-weight:600; font-size:0.95rem; }
 
@@ -52,17 +37,17 @@ header p{ margin:0; color:var(--ink-soft); font-weight:600; font-size:0.95rem; }
 .tab-btn.active{ background:var(--pink); border-color:var(--pink-deep); color:var(--ink); box-shadow:var(--shadow); transform:translateY(-2px); }
 .tab-btn:hover{ transform:translateY(-2px); }
 
-.view{ display:none; max-width:1180px; margin:0 auto; padding:0 20px; }
+.view{ display:none; max-width:1220px; margin:0 auto; padding:0 20px; }
 .view.active{ display:block; }
 
-.builder-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:10px; }
-@media (max-width:880px){ .builder-grid{ grid-template-columns:1fr; } }
+.builder-grid{ display:grid; grid-template-columns:1fr 340px; gap:22px; margin-top:10px; align-items:start; }
+@media (max-width:900px){ .builder-grid{ grid-template-columns:1fr; } }
 
 .team-panel{ background:var(--card); border-radius:22px; padding:18px 18px 22px; box-shadow:var(--shadow); border:2px solid var(--line); }
-.team-panel.teamA{ border-color:var(--pink-deep); }
-.team-panel.teamB{ border-color:var(--lav-deep); }
-.team-panel h2{ margin:2px 0 14px; font-size:1.3rem; display:flex; align-items:center; gap:8px; }
-.pill-count{ font-size:0.75rem; background:var(--sun); padding:3px 10px; border-radius:999px; color:var(--ink); font-weight:800; font-family:'Nunito',sans-serif; }
+.team-panel h2{ margin:2px 0 14px; font-size:1.3rem; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.pill-count{ font-size:0.75rem; background:var(--sun); padding:3px 10px; border-radius:999px; color:var(--ink); font-weight:800; }
+
+.team-name-input{ flex:1; min-width:160px; }
 
 .add-mon-box{ background:#FBF7FF; border:2px dashed var(--line); border-radius:16px; padding:14px; margin-bottom:16px; }
 .add-mon-box label{ display:block; font-size:0.78rem; font-weight:800; color:var(--ink-soft); margin:10px 0 4px; text-transform:uppercase; letter-spacing:0.4px; }
@@ -93,6 +78,8 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 .btn:disabled{ opacity:0.45; cursor:not-allowed; box-shadow:none; transform:none; }
 .btn.full{ width:100%; margin-top:6px; }
 .btn.small{ padding:6px 12px; font-size:0.8rem; box-shadow:0 3px 0 rgba(0,0,0,0.15); }
+.btn-row{ display:flex; gap:8px; margin-top:10px; }
+.btn-row .btn{ flex:1; margin-top:0; }
 
 .roster-list{ display:flex; flex-direction:column; gap:10px; }
 .mon-card{ background:#fff; border:2px solid var(--line); border-radius:16px; padding:12px 14px; }
@@ -103,17 +90,31 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 .mon-moves{ margin-top:8px; display:flex; flex-wrap:wrap; gap:5px; }
 .stat-row{ margin-top:8px; font-size:0.75rem; color:var(--ink-soft); font-weight:700; }
 
-.battle-setup{ text-align:center; background:var(--card); border-radius:20px; padding:26px; border:2px solid var(--line); box-shadow:var(--shadow); margin-top:14px; }
-.arena{ margin-top:18px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-@media (max-width:880px){ .arena{ grid-template-columns:1fr; } }
+.saved-team-item{ background:#fff; border:2px solid var(--line); border-radius:14px; padding:10px 12px; margin-bottom:10px; }
+.saved-team-item .sti-top{ display:flex; justify-content:space-between; align-items:center; gap:6px; }
+.saved-team-item .sti-name{ font-family:'Fredoka',sans-serif; font-size:1rem; }
+.saved-team-item .sti-count{ font-size:0.72rem; color:var(--ink-soft); font-weight:800; }
+.saved-team-item .sti-actions{ display:flex; gap:6px; margin-top:8px; }
 
-.fighter-card{ background:var(--card); border-radius:20px; padding:18px; border:3px solid var(--line); box-shadow:var(--shadow); position:relative; }
-.fighter-card.teamA{ border-color:var(--pink-deep); }
-.fighter-card.teamB{ border-color:var(--lav-deep); }
+.battle-setup{ text-align:center; background:var(--card); border-radius:20px; padding:26px; border:2px solid var(--line); box-shadow:var(--shadow); margin-top:14px; }
+.participant-picker{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:16px 0; max-width:820px; margin-left:auto; margin-right:auto; }
+.participant-chip{
+  display:flex; align-items:center; gap:7px; background:#fff; border:2px solid var(--line); border-radius:12px;
+  padding:8px 12px; font-weight:700; cursor:pointer; font-size:0.9rem;
+}
+.participant-chip input{ accent-color:var(--pink-deep); }
+.participant-chip.checked{ background:var(--mint); border-color:var(--mint-deep); }
+.color-dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+.arena{ margin-top:18px; display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:16px; }
+
+.fighter-card{ background:var(--card); border-radius:20px; padding:16px; border:3px solid var(--line); box-shadow:var(--shadow); position:relative; }
 .fighter-card.fainted{ opacity:0.55; filter:grayscale(0.6); }
-.fighter-top{ display:flex; justify-content:space-between; align-items:baseline; }
-.fighter-name{ font-family:'Fredoka',sans-serif; font-size:1.2rem; }
-.fighter-lvl{ font-size:0.8rem; color:var(--ink-soft); font-weight:800; }
+.fighter-card.eliminated{ opacity:0.35; filter:grayscale(1); }
+.fighter-top{ display:flex; justify-content:space-between; align-items:baseline; gap:6px; }
+.fighter-team-label{ font-size:0.68rem; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; color:var(--ink-soft); display:flex; align-items:center; gap:5px; }
+.fighter-name{ font-family:'Fredoka',sans-serif; font-size:1.1rem; }
+.fighter-lvl{ font-size:0.78rem; color:var(--ink-soft); font-weight:800; }
 .hp-label{ display:flex; justify-content:space-between; font-size:0.75rem; font-weight:800; color:var(--ink-soft); margin-top:10px; }
 .hp-bar-bg{ background:#F0EBF7; border-radius:999px; height:14px; overflow:hidden; margin-top:3px; }
 .hp-bar-fill{ height:100%; border-radius:999px; transition:width .35s ease; background:var(--mint-deep); }
@@ -122,11 +123,11 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 .stage-tags{ margin-top:8px; font-size:0.7rem; color:var(--ink-soft); font-weight:700; min-height:14px; }
 
 .turn-controls{ margin-top:20px; }
-.turn-controls .arena{ margin-top:8px; }
 .control-block{ background:var(--card); border-radius:16px; padding:14px; border:2px solid var(--line); }
-.control-block h3{ margin:0 0 8px; font-size:0.95rem; }
+.control-block h3{ margin:0 0 8px; font-size:0.9rem; display:flex; align-items:center; gap:6px; }
+.control-block label{ display:block; font-size:0.72rem; font-weight:800; color:var(--ink-soft); margin:8px 0 3px; text-transform:uppercase; }
 
-.log-box{ margin-top:20px; background:#2E2740; color:#F4EEFF; border-radius:18px; padding:16px 18px; height:190px; overflow-y:auto; font-size:0.88rem; font-family:'Nunito',sans-serif; line-height:1.5; }
+.log-box{ margin-top:20px; background:#2E2740; color:#F4EEFF; border-radius:18px; padding:16px 18px; height:190px; overflow-y:auto; font-size:0.88rem; line-height:1.5; }
 .log-box p{ margin:0 0 6px; }
 .log-box .eff-super{ color:#8CF0C4; font-weight:800; }
 .log-box .eff-weak{ color:#FFB3B3; font-weight:800; }
@@ -134,7 +135,6 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 .log-box .crit{ color:#FFE49A; font-weight:800; }
 
 .winner-banner{ text-align:center; margin-top:16px; padding:16px; border-radius:16px; background:var(--sun); font-family:'Fredoka',sans-serif; font-size:1.3rem; box-shadow:var(--shadow); }
-
 .center-row{ text-align:center; margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 .empty-msg{ text-align:center; color:var(--ink-soft); font-weight:700; padding:20px 0; }
 
@@ -143,10 +143,7 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
   display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;
   font-family:'Fredoka',sans-serif; font-size:1.1rem; color:var(--ink); text-align:center; padding:20px;
 }
-.spinner{
-  width:34px; height:34px; border-radius:50%; border:5px solid var(--pink);
-  border-top-color:var(--pink-deep); animation:spin 0.8s linear infinite;
-}
+.spinner{ width:34px; height:34px; border-radius:50%; border:5px solid var(--pink); border-top-color:var(--pink-deep); animation:spin 0.8s linear infinite; }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 </style>
 </head>
@@ -161,7 +158,7 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 
 <header>
   <h1>Pocket <span>Arena</span></h1>
-  <p>Build two teams from the full Pokédex, choose what they learn, then call the shots in battle.</p>
+  <p>Build and save teams, then run battles with 2–8 players.</p>
 </header>
 
 <div class="tabs">
@@ -171,9 +168,9 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 
 <div class="view active" id="view-builder">
   <div class="builder-grid">
-    <div class="team-panel teamA">
-      <h2>🌸 Team A <span class="pill-count" id="countA">0/6</span></h2>
-      <div class="add-mon-box" data-team="A">
+    <div class="team-panel">
+      <h2>Team Editor <input type="text" class="team-name-input" id="teamNameInput" placeholder="Name this team..."></h2>
+      <div class="add-mon-box" data-role="editor">
         <label>Type a Pokémon name</label>
         <input type="text" class="pick-species" list="pokedexList" placeholder="e.g. Charizard, Greninja, Tapu Koko...">
         <div class="hint species-status"></div>
@@ -182,25 +179,21 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
         <label>Moves known at this level (choose up to 4)</label>
         <div class="move-check-list"></div>
         <div class="hint">Pick 1–4 level-up moves it has learned by this level.</div>
-        <button class="btn pink full add-btn">Add to Team A</button>
+        <label>Equip a Z-Crystal (optional)</label>
+        <select class="z-move-select"><option value="">None</option></select>
+        <div class="hint">Powers up that one move into a Z-Move, usable once per battle.</div>
+        <button class="btn pink full add-btn">Add to This Team</button>
       </div>
-      <div class="roster-list" id="rosterA"></div>
+      <div class="roster-list" id="rosterCurrent"></div>
+      <div class="btn-row">
+        <button class="btn mint" id="saveTeamBtn">💾 Save Team</button>
+        <button class="btn small" id="newTeamBtn">🆕 New Team</button>
+      </div>
     </div>
 
-    <div class="team-panel teamB">
-      <h2>💜 Team B <span class="pill-count" id="countB">0/6</span></h2>
-      <div class="add-mon-box" data-team="B">
-        <label>Type a Pokémon name</label>
-        <input type="text" class="pick-species" list="pokedexList" placeholder="e.g. Charizard, Greninja, Tapu Koko...">
-        <div class="hint species-status"></div>
-        <label>Level (1–100)</label>
-        <input type="number" class="pick-level" min="1" max="100" value="10">
-        <label>Moves known at this level (choose up to 4)</label>
-        <div class="move-check-list"></div>
-        <div class="hint">Pick 1–4 level-up moves it has learned by this level.</div>
-        <button class="btn lav full add-btn">Add to Team B</button>
-      </div>
-      <div class="roster-list" id="rosterB"></div>
+    <div class="team-panel">
+      <h2>📦 Saved Teams</h2>
+      <div id="savedTeamsList"><p class="empty-msg">No teams saved yet.</p></div>
     </div>
   </div>
 </div>
@@ -208,27 +201,20 @@ select:focus, input:focus{ outline:2px solid var(--pink-deep); }
 <div class="view" id="view-battle">
   <div class="battle-setup" id="battleSetup">
     <h2>Ready to fight?</h2>
-    <p class="hint" id="setupHint">Build both teams first.</p>
+    <p class="hint" id="setupHint">Save at least 2 teams, then pick 2–8 to battle.</p>
+    <div class="participant-picker" id="participantPicker"></div>
     <button class="btn pink" id="startBattleBtn" disabled>Start Battle</button>
   </div>
 
   <div id="battleArena" style="display:none;">
-    <div class="arena">
-      <div class="fighter-card teamA" id="fighterA"></div>
-      <div class="fighter-card teamB" id="fighterB"></div>
-    </div>
-
+    <div class="arena" id="arenaGrid"></div>
     <div class="turn-controls">
-      <div class="arena">
-        <div class="control-block" id="controlA"></div>
-        <div class="control-block" id="controlB"></div>
-      </div>
+      <div class="arena" id="controlsGrid"></div>
       <div class="center-row">
         <button class="btn mint" id="fightBtn">Use Moves!</button>
         <button class="btn small" id="resetBattleBtn">Reset Battle</button>
       </div>
     </div>
-
     <div id="winnerBanner"></div>
     <div class="log-box" id="logBox"></div>
   </div>
@@ -248,29 +234,39 @@ const TYPE_COLORS = {
   Dark:'#6E6259', Steel:'#B8B8CC', Fairy:'#F2A8D8'
 };
 
+const PARTICIPANT_COLORS = ['#FF9EBB','#B49CFF','#6FD9B8','#FFC94D','#FF9F68','#6FC1E8','#C48CE0','#8FE0A0'];
+
 const STAT_KEY_MAP = { hp:'hp', attack:'atk', defense:'def', 'special-attack':'spa', 'special-defense':'spd', speed:'spe' };
 const STAT_NAME_TO_KEY = { attack:'atk', defense:'def', 'special-attack':'spa', 'special-defense':'spd', speed:'spe' };
 
+// Simplified official Gen 7 base-power -> Z-Move-power conversion table.
+function zPowerFromBase(power){
+  if(power<=55) return 100;
+  if(power<=65) return 120;
+  if(power<=75) return 140;
+  if(power<=85) return 160;
+  if(power<=95) return 175;
+  if(power<=110) return 190;
+  if(power<=125) return 195;
+  return 200;
+}
+
 /* ============================= GLOBAL DATA / CACHES ============================= */
 
-let typeChart = {};              // typeChart[AtkType][DefType] = multiplier
-const speciesIndex = new Map();  // lowercase-hyphen-name -> url
-const pokemonCache = {};         // key -> { name, types:[...], base:{...}, learnset:[[level,moveKey],...] }
-const moveCache = {};            // moveKey -> { name, type, power, cat, acc, effect }
+let typeChart = {};
+const speciesIndex = new Map();
+const pokemonCache = {};
+const moveCache = {};
 
-const teams = { A: [], B: [] };
+let currentTeam = { name: '', entries: [] }; // entries: {speciesKey, level, moves:[...]}
+let savedTeamsMeta = [];                     // [{key, name, count}]
 let battle = null;
 
 /* ============================= HELPERS ============================= */
 
-function formatName(raw){
-  return raw.split('-').map(w=> w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-}
+function formatName(raw){ return raw.split('-').map(w=> w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 function toKey(str){ return str.trim().toLowerCase().replace(/\s+/g,'-'); }
-function debounce(fn, delay){
-  let t;
-  return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); };
-}
+function debounce(fn, delay){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); }; }
 function showGlobalLoading(show, text){
   const el = document.getElementById('globalLoading');
   if(text) document.getElementById('globalLoadingText').textContent = text;
@@ -300,11 +296,7 @@ async function loadSpeciesIndex(){
   data.results.forEach(p=> speciesIndex.set(p.name, p.url));
   const datalist = document.getElementById('pokedexList');
   const frag = document.createDocumentFragment();
-  data.results.forEach(p=>{
-    const opt = document.createElement('option');
-    opt.value = formatName(p.name);
-    frag.appendChild(opt);
-  });
+  data.results.forEach(p=>{ const opt = document.createElement('option'); opt.value = formatName(p.name); frag.appendChild(opt); });
   datalist.appendChild(frag);
 }
 
@@ -314,11 +306,9 @@ async function ensurePokemonLoaded(key){
   if(!url) throw new Error('not found');
   const res = await fetch(url);
   const data = await res.json();
-
   const types = data.types.sort((a,b)=>a.slot-b.slot).map(t=>formatName(t.type.name));
   const base = {};
   data.stats.forEach(s=>{ const k = STAT_KEY_MAP[s.stat.name]; if(k) base[k] = s.base_stat; });
-
   const learnset = [];
   data.moves.forEach(m=>{
     let minLevel = null;
@@ -331,7 +321,6 @@ async function ensurePokemonLoaded(key){
     if(minLevel !== null) learnset.push([minLevel, m.move.name]);
   });
   learnset.sort((a,b)=>a[0]-b[0]);
-
   const parsed = { name: formatName(data.name), types, base, learnset };
   pokemonCache[key] = parsed;
   return parsed;
@@ -352,12 +341,8 @@ async function loadMoveDetail(moveKey){
     }
   }
   const parsed = {
-    name: formatName(data.name),
-    type: formatName(data.type.name),
-    power: data.power || 0,
-    cat,
-    acc: (data.accuracy === null || data.accuracy === undefined) ? 100 : data.accuracy,
-    effect
+    name: formatName(data.name), type: formatName(data.type.name), power: data.power || 0, cat,
+    acc: (data.accuracy === null || data.accuracy === undefined) ? 100 : data.accuracy, effect
   };
   moveCache[moveKey] = parsed;
   return parsed;
@@ -384,9 +369,7 @@ function getEffectiveness(atkType, defTypes){
 
 /* ============================= RENDER HELPERS ============================= */
 
-function typeBadges(types){
-  return types.map(t=>`<span class="type-badge" style="background:${TYPE_COLORS[t]||'#999'}">${t}</span>`).join(' ');
-}
+function typeBadges(types){ return types.map(t=>`<span class="type-badge" style="background:${TYPE_COLORS[t]||'#999'}">${t}</span>`).join(' '); }
 function moveChip(moveKey, checked){
   const m = moveCache[moveKey];
   if(!m) return '';
@@ -396,114 +379,187 @@ function moveChip(moveKey, checked){
   </label>`;
 }
 
-/* ============================= BUILDER UI ============================= */
+/* ============================= TEAM EDITOR ============================= */
 
-function bindSpeciesBox(box){
-  const input = box.querySelector('.pick-species');
-  const levelInput = box.querySelector('.pick-level');
-  const moveListEl = box.querySelector('.move-check-list');
-  const statusEl = box.querySelector('.species-status');
+const editorBox = document.querySelector('.add-mon-box[data-role="editor"]');
+const editorInput = editorBox.querySelector('.pick-species');
+const editorLevel = editorBox.querySelector('.pick-level');
+const editorMoveList = editorBox.querySelector('.move-check-list');
+const editorStatus = editorBox.querySelector('.species-status');
+const editorZSelect = editorBox.querySelector('.z-move-select');
 
-  async function handleSpeciesChange(){
-    const raw = toKey(input.value);
-    if(!raw){ statusEl.textContent=''; moveListEl.innerHTML=''; delete box.dataset.speciesKey; return; }
-    if(!speciesIndex.has(raw)){
-      statusEl.textContent = 'Pokémon not found — check spelling.';
-      statusEl.classList.add('warn');
-      moveListEl.innerHTML = '';
-      delete box.dataset.speciesKey;
-      return;
-    }
-    statusEl.classList.remove('warn');
-    statusEl.textContent = 'Loading movepool…';
-    moveListEl.innerHTML = '';
-    try{
-      await ensurePokemonLoaded(raw);
-      box.dataset.speciesKey = raw;
-      await refreshMoveListAsync(box, raw);
-      statusEl.textContent = '';
-    }catch(e){
-      statusEl.textContent = 'Could not load that Pokémon — try again.';
-      statusEl.classList.add('warn');
-    }
-  }
-
-  input.addEventListener('input', debounce(handleSpeciesChange, 450));
-  levelInput.addEventListener('input', debounce(()=>{
-    if(box.dataset.speciesKey) refreshMoveListAsync(box, box.dataset.speciesKey);
-  }, 350));
-
-  moveListEl.addEventListener('change', (e)=>{
-    const checks = moveListEl.querySelectorAll('input[type=checkbox]');
-    const checkedCount = [...checks].filter(c=>c.checked).length;
-    if(checkedCount > 4){ e.target.checked = false; }
-    checks.forEach(c=> c.closest('.move-chip').classList.toggle('checked', c.checked));
-  });
-
-  box.querySelector('.add-btn').addEventListener('click', ()=> addToTeam(box));
+function refreshZMoveOptions(){
+  const checked = [...editorMoveList.querySelectorAll('input:checked')].map(c=>c.value);
+  const prev = editorZSelect.value;
+  editorZSelect.innerHTML = '<option value="">None</option>' +
+    checked.filter(mv=>moveCache[mv]).map(mv=>`<option value="${mv}">${moveCache[mv].name}</option>`).join('');
+  editorZSelect.value = checked.includes(prev) ? prev : '';
 }
 
-async function refreshMoveListAsync(box, key){
-  const moveListEl = box.querySelector('.move-check-list');
-  const level = Math.min(100, Math.max(1, parseInt(box.querySelector('.pick-level').value) || 1));
+async function handleEditorSpeciesChange(){
+  const raw = toKey(editorInput.value);
+  if(!raw){ editorStatus.textContent=''; editorMoveList.innerHTML=''; delete editorBox.dataset.speciesKey; return; }
+  if(!speciesIndex.has(raw)){
+    editorStatus.textContent = 'Pokémon not found — check spelling.';
+    editorStatus.classList.add('warn');
+    editorMoveList.innerHTML = '';
+    delete editorBox.dataset.speciesKey;
+    return;
+  }
+  editorStatus.classList.remove('warn');
+  editorStatus.textContent = 'Loading movepool…';
+  editorMoveList.innerHTML = '';
+  try{
+    await ensurePokemonLoaded(raw);
+    editorBox.dataset.speciesKey = raw;
+    await refreshEditorMoveList(raw);
+    editorStatus.textContent = '';
+  }catch(e){
+    editorStatus.textContent = 'Could not load that Pokémon — try again.';
+    editorStatus.classList.add('warn');
+  }
+}
+editorInput.addEventListener('input', debounce(handleEditorSpeciesChange, 450));
+editorLevel.addEventListener('input', debounce(()=>{ if(editorBox.dataset.speciesKey) refreshEditorMoveList(editorBox.dataset.speciesKey); }, 350));
+editorMoveList.addEventListener('change', (e)=>{
+  const checks = editorMoveList.querySelectorAll('input[type=checkbox]');
+  const checkedCount = [...checks].filter(c=>c.checked).length;
+  if(checkedCount > 4){ e.target.checked = false; }
+  checks.forEach(c=> c.closest('.move-chip').classList.toggle('checked', c.checked));
+  refreshZMoveOptions();
+});
+editorBox.querySelector('.add-btn').addEventListener('click', addToCurrentTeam);
+
+async function refreshEditorMoveList(key){
+  const level = Math.min(100, Math.max(1, parseInt(editorLevel.value) || 1));
   const species = pokemonCache[key];
   const learnableNow = [...new Set(species.learnset.filter(([lvl])=>lvl<=level).map(([,mv])=>mv))];
-
-  if(learnableNow.length === 0){
-    moveListEl.innerHTML = '<span class="hint warn">No level-up moves known yet at this level.</span>';
-    return;
-  }
-  moveListEl.innerHTML = '<span class="hint">Loading movepool…</span>';
+  if(learnableNow.length === 0){ editorMoveList.innerHTML = '<span class="hint warn">No level-up moves known yet at this level.</span>'; return; }
+  editorMoveList.innerHTML = '<span class="hint">Loading movepool…</span>';
   await Promise.all(learnableNow.map(loadMoveDetail));
-  // level may have changed again while awaiting — re-check it still matches current box state
-  if(box.dataset.speciesKey !== key) return;
-  moveListEl.innerHTML = learnableNow.map(mv=>moveChip(mv,false)).join('');
+  if(editorBox.dataset.speciesKey !== key) return;
+  editorMoveList.innerHTML = learnableNow.map(mv=>moveChip(mv,false)).join('');
+  refreshZMoveOptions();
 }
 
-function addToTeam(box){
-  const team = box.dataset.team;
-  if(teams[team].length >= 6){ alert('That team already has 6 Pokémon!'); return; }
-  const key = box.dataset.speciesKey;
+function addToCurrentTeam(){
+  if(currentTeam.entries.length >= 6){ alert('A team can have up to 6 Pokémon.'); return; }
+  const key = editorBox.dataset.speciesKey;
   if(!key || !pokemonCache[key]){ alert('Pick a valid Pokémon first.'); return; }
-  const level = Math.min(100, Math.max(1, parseInt(box.querySelector('.pick-level').value) || 1));
-  const checked = [...box.querySelectorAll('.move-check-list input:checked')].map(c=>c.value);
+  const level = Math.min(100, Math.max(1, parseInt(editorLevel.value) || 1));
+  const checked = [...editorMoveList.querySelectorAll('input:checked')].map(c=>c.value);
   if(checked.length === 0){ alert('Choose at least 1 move.'); return; }
-  teams[team].push({ species: pokemonCache[key], level, moves: checked });
-  renderRoster(team);
+  const zMove = editorZSelect.value && checked.includes(editorZSelect.value) ? editorZSelect.value : null;
+  currentTeam.entries.push({ speciesKey: key, level, moves: checked, zMove });
+  editorZSelect.value = '';
+  renderCurrentRoster();
 }
 
-function renderRoster(team){
-  const el = document.getElementById('roster'+team);
-  const list = teams[team];
-  document.getElementById('count'+team).textContent = list.length + '/6';
-  if(list.length === 0){
-    el.innerHTML = '<p class="empty-msg">No Pokémon added yet.</p>';
-    updateBattleSetupState();
-    return;
-  }
-  el.innerHTML = list.map((entry, idx)=>{
-    const stats = calcStats(entry.species, entry.level);
+function renderCurrentRoster(){
+  const el = document.getElementById('rosterCurrent');
+  if(currentTeam.entries.length === 0){ el.innerHTML = '<p class="empty-msg">No Pokémon added yet.</p>'; return; }
+  el.innerHTML = currentTeam.entries.map((entry, idx)=>{
+    const species = pokemonCache[entry.speciesKey];
+    const stats = calcStats(species, entry.level);
     return `<div class="mon-card">
       <div class="mon-card-top">
-        <div>
-          <span class="mon-name">${entry.species.name}</span>
-          <span class="mon-lvl"> · Lv. ${entry.level}</span>
-        </div>
-        <button class="btn small" data-remove="${team}:${idx}">Remove</button>
+        <div><span class="mon-name">${species.name}</span><span class="mon-lvl"> · Lv. ${entry.level}</span></div>
+        <button class="btn small" data-remove="${idx}">Remove</button>
       </div>
-      <div>${typeBadges(entry.species.types)}</div>
+      <div>${typeBadges(species.types)}</div>
       <div class="mon-moves">${entry.moves.map(mv=>moveChip(mv,true)).join('')}</div>
+      ${entry.zMove ? `<div class="hint">⚡ Z-Crystal equipped: ${moveCache[entry.zMove].name}</div>` : ''}
       <div class="stat-row">HP ${stats.hp} · Atk ${stats.atk} · Def ${stats.def} · SpA ${stats.spa} · SpD ${stats.spd} · Spe ${stats.spe}</div>
     </div>`;
   }).join('');
   el.querySelectorAll('[data-remove]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const [t, i] = btn.dataset.remove.split(':');
-      teams[t].splice(parseInt(i),1);
-      renderRoster(t);
-    });
+    btn.addEventListener('click', ()=>{ currentTeam.entries.splice(parseInt(btn.dataset.remove),1); renderCurrentRoster(); });
   });
-  updateBattleSetupState();
+}
+
+document.getElementById('newTeamBtn').addEventListener('click', ()=>{
+  currentTeam = { name:'', entries:[] };
+  document.getElementById('teamNameInput').value = '';
+  renderCurrentRoster();
+});
+
+/* ============================= SAVE / LOAD TEAMS (window.storage) ============================= */
+
+document.getElementById('saveTeamBtn').addEventListener('click', saveCurrentTeam);
+
+async function saveCurrentTeam(){
+  const nameInput = document.getElementById('teamNameInput');
+  const name = nameInput.value.trim();
+  if(!name){ alert('Give this team a name first.'); return; }
+  if(currentTeam.entries.length === 0){ alert('Add at least 1 Pokémon before saving.'); return; }
+  const key = 'team:' + toKey(name);
+  try{
+    const result = await window.storage.set(key, JSON.stringify({ name, entries: currentTeam.entries }), false);
+    if(!result){ alert('Could not save the team. Please try again.'); return; }
+    currentTeam.name = name;
+    await loadSavedTeamsList();
+  }catch(e){ alert('Could not save the team. Please try again.'); }
+}
+
+async function loadSavedTeamsList(){
+  const listEl = document.getElementById('savedTeamsList');
+  try{
+    const res = await window.storage.list('team:', false);
+    const keys = (res && res.keys) ? res.keys : [];
+    const metas = await Promise.all(keys.map(async k=>{
+      try{
+        const r = await window.storage.get(k, false);
+        if(!r) return null;
+        const data = JSON.parse(r.value);
+        return { key:k, name:data.name, count:data.entries.length };
+      }catch(e){ return null; }
+    }));
+    savedTeamsMeta = metas.filter(Boolean);
+  }catch(e){ savedTeamsMeta = []; }
+
+  if(savedTeamsMeta.length === 0){ listEl.innerHTML = '<p class="empty-msg">No teams saved yet.</p>'; }
+  else{
+    listEl.innerHTML = savedTeamsMeta.map(t=>`
+      <div class="saved-team-item">
+        <div class="sti-top">
+          <span class="sti-name">${t.name}</span>
+          <span class="sti-count">${t.count} Pokémon</span>
+        </div>
+        <div class="sti-actions">
+          <button class="btn small mint" data-load="${t.key}">Load to Edit</button>
+          <button class="btn small" data-delete="${t.key}">Delete</button>
+        </div>
+      </div>`).join('');
+    listEl.querySelectorAll('[data-load]').forEach(btn=> btn.addEventListener('click', ()=> loadTeamIntoEditor(btn.dataset.load)));
+    listEl.querySelectorAll('[data-delete]').forEach(btn=> btn.addEventListener('click', ()=> deleteTeam(btn.dataset.delete)));
+  }
+  renderParticipantPicker();
+}
+
+async function loadTeamIntoEditor(key){
+  showGlobalLoading(true, 'Loading team…');
+  try{
+    const r = await window.storage.get(key, false);
+    const data = JSON.parse(r.value);
+    await Promise.all(data.entries.map(async e=>{
+      await ensurePokemonLoaded(e.speciesKey);
+      await Promise.all(e.moves.map(loadMoveDetail));
+    }));
+    currentTeam = { name: data.name, entries: data.entries };
+    document.getElementById('teamNameInput').value = data.name;
+    renderCurrentRoster();
+  }catch(e){ alert('Could not load that team.'); }
+  showGlobalLoading(false);
+}
+
+async function deleteTeam(key){
+  if(!confirm('Delete this saved team?')) return;
+  try{
+    await window.storage.delete(key, false);
+  }catch(e){
+    alert('Could not delete that team — try again.');
+  }
+  await loadSavedTeamsList();
 }
 
 /* ============================= TABS ============================= */
@@ -514,18 +570,39 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.classList.add('active');
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.getElementById('view-'+btn.dataset.tab).classList.add('active');
-    if(btn.dataset.tab === 'battle') updateBattleSetupState();
+    if(btn.dataset.tab === 'battle') renderParticipantPicker();
   });
 });
 
 /* ============================= BATTLE SETUP ============================= */
 
-function updateBattleSetupState(){
-  const ready = teams.A.length > 0 && teams.B.length > 0;
-  document.getElementById('startBattleBtn').disabled = !ready;
-  document.getElementById('setupHint').textContent = ready
-    ? `Team A (${teams.A.length}) vs Team B (${teams.B.length}). Good to go!`
-    : 'Build both teams first — each needs at least 1 Pokémon.';
+let selectedParticipants = new Set();
+
+function renderParticipantPicker(){
+  const el = document.getElementById('participantPicker');
+  if(savedTeamsMeta.length === 0){ el.innerHTML = ''; }
+  else{
+    el.innerHTML = savedTeamsMeta.map((t,i)=>`
+      <label class="participant-chip ${selectedParticipants.has(t.key)?'checked':''}">
+        <input type="checkbox" value="${t.key}" ${selectedParticipants.has(t.key)?'checked':''}>
+        <span class="color-dot" style="background:${PARTICIPANT_COLORS[i % PARTICIPANT_COLORS.length]}"></span>
+        ${t.name} <span class="hint" style="margin:0;">(${t.count})</span>
+      </label>`).join('');
+    el.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+      cb.addEventListener('change', ()=>{
+        if(cb.checked){
+          if(selectedParticipants.size >= 8){ cb.checked = false; alert('You can pick up to 8 teams.'); return; }
+          selectedParticipants.add(cb.value);
+        } else { selectedParticipants.delete(cb.value); }
+        renderParticipantPicker();
+      });
+    });
+  }
+  const count = selectedParticipants.size;
+  document.getElementById('setupHint').textContent = savedTeamsMeta.length === 0
+    ? 'Save at least 2 teams in the Team Builder tab first.'
+    : `${count}/8 teams selected — pick between 2 and 8 to battle.`;
+  document.getElementById('startBattleBtn').disabled = !(count >= 2 && count <= 8);
 }
 
 document.getElementById('startBattleBtn').addEventListener('click', startBattle);
@@ -536,30 +613,53 @@ document.getElementById('resetBattleBtn').addEventListener('click', ()=>{
 });
 
 function buildFighter(entry){
-  const stats = calcStats(entry.species, entry.level);
-  return {
-    species: entry.species, level: entry.level, moves: entry.moves, stats,
-    currentHP: stats.hp, stages: {atk:0, def:0, spa:0, spd:0, spe:0}, fainted: false
-  };
+  const species = pokemonCache[entry.speciesKey];
+  const stats = calcStats(species, entry.level);
+  return { species, level: entry.level, moves: entry.moves, stats, currentHP: stats.hp,
+           stages: {atk:0, def:0, spa:0, spd:0, spe:0}, fainted: false,
+           zMove: entry.zMove || null, zUsed: false };
 }
 
-function startBattle(){
-  battle = {
-    teamA: teams.A.map(buildFighter), teamB: teams.B.map(buildFighter),
-    activeA: 0, activeB: 0, over: false
-  };
+async function startBattle(){
+  showGlobalLoading(true, 'Preparing battle…');
+  try{
+    const keys = [...selectedParticipants];
+    const teamsData = await Promise.all(keys.map(async k=>{
+      const r = await window.storage.get(k, false);
+      const data = JSON.parse(r.value);
+      await Promise.all(data.entries.map(async e=>{
+        await ensurePokemonLoaded(e.speciesKey);
+        await Promise.all(e.moves.map(loadMoveDetail));
+      }));
+      return data;
+    }));
+    battle = {
+      participants: teamsData.map((data, i)=>({
+        name: data.name, colorIndex: i, fighters: data.entries.map(buildFighter), active: 0
+      })),
+      over: false
+    };
+  }catch(e){
+    showGlobalLoading(false);
+    alert('Could not start the battle — try again.');
+    return;
+  }
+  showGlobalLoading(false);
   document.getElementById('battleSetup').style.display = 'none';
   document.getElementById('battleArena').style.display = 'block';
   document.getElementById('winnerBanner').innerHTML = '';
   document.getElementById('logBox').innerHTML = '';
-  addLog(`Battle start! ${activeMon('A').species.name} vs ${activeMon('B').species.name}!`);
+  addLog(`Battle start! ${battle.participants.length} teams enter the arena!`);
   renderBattle();
 }
 
-function activeMon(team){
-  const list = team==='A' ? battle.teamA : battle.teamB;
-  const idx = team==='A' ? battle.activeA : battle.activeB;
-  return list[idx];
+function activeMon(pIdx){ const p = battle.participants[pIdx]; return p.fighters[p.active]; }
+function isParticipantAlive(pIdx){ return battle.participants[pIdx].fighters.some(f=>!f.fainted); }
+function pendingSwitchIndices(){
+  return battle.participants.map((p,idx)=>idx).filter(idx=> isParticipantAlive(idx) && activeMon(idx).fainted);
+}
+function aliveActiveIndices(){
+  return battle.participants.map((p,idx)=>idx).filter(idx=> isParticipantAlive(idx) && !activeMon(idx).fainted);
 }
 
 /* ============================= BATTLE RENDER ============================= */
@@ -575,56 +675,93 @@ function stageSummary(fighter){
   Object.entries(fighter.stages).forEach(([k,v])=>{ if(v !== 0) parts.push(`${k.toUpperCase()} ${v>0?'+':''}${v}`); });
   return parts.join(' · ');
 }
-function renderFighterCard(team){
-  const f = activeMon(team);
-  const pct = Math.max(0, Math.round((f.currentHP/f.stats.hp)*100));
-  document.getElementById('fighter'+team).innerHTML = `
-    <div class="fighter-top">
-      <span class="fighter-name">${f.species.name}${f.fainted?' 💤':''}</span>
-      <span class="fighter-lvl">Lv. ${f.level}</span>
-    </div>
-    <div>${typeBadges(f.species.types)}</div>
-    <div class="hp-label"><span>HP</span><span>${Math.max(0,f.currentHP)}/${f.stats.hp}</span></div>
-    <div class="hp-bar-bg"><div class="hp-bar-fill ${hpBarClass(f)}" style="width:${pct}%"></div></div>
-    <div class="stage-tags">${stageSummary(f)}</div>
-  `;
-  document.getElementById('fighter'+team).classList.toggle('fainted', f.fainted);
-}
-function renderControl(team){
-  const el = document.getElementById('control'+team);
-  const list = team==='A' ? battle.teamA : battle.teamB;
-  const f = activeMon(team);
-  if(battle.over){ el.innerHTML = ''; return; }
 
-  if(f.fainted){
-    const options = list.map((mon, idx)=> mon.fainted ? '' : `<option value="${idx}">${mon.species.name} (Lv.${mon.level})</option>`).join('');
-    if(!options){ el.innerHTML = `<h3>Team ${team}</h3><p class="hint">No Pokémon left!</p>`; return; }
-    el.innerHTML = `<h3>Team ${team} — send out next Pokémon</h3>
-      <select class="switch-select" data-team="${team}">${options}</select>
-      <button class="btn mint full switch-btn" data-team="${team}" style="margin-top:8px;">Send Out</button>`;
-    el.querySelector('.switch-btn').addEventListener('click', ()=>{
-      const idx = parseInt(el.querySelector('.switch-select').value);
-      if(team==='A') battle.activeA = idx; else battle.activeB = idx;
-      addLog(`Team ${team} sends out ${activeMon(team).species.name}!`);
-      renderBattle();
-    });
-  } else {
-    const options = f.moves.map(mv=>{
+function renderBattle(){
+  const arenaGrid = document.getElementById('arenaGrid');
+  arenaGrid.innerHTML = battle.participants.map((p, idx)=>{
+    const alive = isParticipantAlive(idx);
+    const f = alive ? activeMon(idx) : null;
+    const color = PARTICIPANT_COLORS[idx % PARTICIPANT_COLORS.length];
+    if(!alive){
+      return `<div class="fighter-card eliminated" style="border-color:${color}">
+        <div class="fighter-team-label"><span class="color-dot" style="background:${color}"></span>${p.name}</div>
+        <div class="fighter-name">Defeated</div>
+      </div>`;
+    }
+    const pct = Math.max(0, Math.round((f.currentHP/f.stats.hp)*100));
+    return `<div class="fighter-card ${f.fainted?'fainted':''}" style="border-color:${color}">
+      <div class="fighter-team-label"><span class="color-dot" style="background:${color}"></span>${p.name}</div>
+      <div class="fighter-top">
+        <span class="fighter-name">${f.species.name}${f.fainted?' 💤':''}</span>
+        <span class="fighter-lvl">Lv. ${f.level}</span>
+      </div>
+      <div>${typeBadges(f.species.types)}</div>
+      <div class="hp-label"><span>HP</span><span>${Math.max(0,f.currentHP)}/${f.stats.hp}</span></div>
+      <div class="hp-bar-bg"><div class="hp-bar-fill ${hpBarClass(f)}" style="width:${pct}%"></div></div>
+      <div class="stage-tags">${stageSummary(f)}</div>
+    </div>`;
+  }).join('');
+
+  const controlsGrid = document.getElementById('controlsGrid');
+  if(battle.over){ controlsGrid.innerHTML = ''; document.getElementById('fightBtn').style.display='none'; checkGameOver(); return; }
+
+  const pending = pendingSwitchIndices();
+  controlsGrid.innerHTML = battle.participants.map((p, idx)=>{
+    if(!isParticipantAlive(idx)) return '';
+    const color = PARTICIPANT_COLORS[idx % PARTICIPANT_COLORS.length];
+    const f = activeMon(idx);
+    if(f.fainted){
+      const options = p.fighters.map((mon, fi)=> mon.fainted ? '' : `<option value="${fi}">${mon.species.name} (Lv.${mon.level})</option>`).join('');
+      return `<div class="control-block" style="border-color:${color}">
+        <h3><span class="color-dot" style="background:${color}"></span>${p.name} — send out next Pokémon</h3>
+        <select class="switch-select" data-p="${idx}">${options}</select>
+        <button class="btn mint full switch-btn" data-p="${idx}" style="margin-top:8px;">Send Out</button>
+      </div>`;
+    }
+    const moveOptions = f.moves.map(mv=>{
       const m = moveCache[mv];
       return `<option value="${mv}">${m.name} (${m.type}${m.power?', '+m.power+' pow':', status'})</option>`;
     }).join('');
-    el.innerHTML = `<h3>Team ${team} — ${f.species.name}'s move</h3>
-      <select class="move-select" data-team="${team}">${options}</select>`;
-  }
-}
-function anyPendingSwitch(){ return activeMon('A').fainted || activeMon('B').fainted; }
-function renderBattle(){
-  renderFighterCard('A'); renderFighterCard('B');
-  renderControl('A'); renderControl('B');
-  const needsSwitch = anyPendingSwitch() && !battle.over;
-  document.getElementById('fightBtn').style.display = needsSwitch ? 'none' : 'inline-block';
+    const otherAlive = battle.participants.map((op,oi)=>oi).filter(oi=> oi!==idx && isParticipantAlive(oi));
+    const targetOptions = otherAlive.map(oi=>`<option value="${oi}">${battle.participants[oi].name} (${activeMon(oi).species.name})</option>`).join('');
+    const zAvailable = f.zMove && !f.zUsed;
+    const zRow = zAvailable
+      ? `<label style="display:flex;align-items:center;gap:6px;margin-top:10px;cursor:pointer;">
+           <input type="checkbox" class="z-toggle" data-p="${idx}" style="width:auto;">
+           ⚡ Unleash Z-Power: ${moveCache[f.zMove].name} (once per battle)
+         </label>`
+      : (f.zMove && f.zUsed ? `<div class="hint">⚡ Z-Power already used this battle.</div>` : '');
+    return `<div class="control-block" style="border-color:${color}">
+      <h3><span class="color-dot" style="background:${color}"></span>${p.name} — ${f.species.name}</h3>
+      <label>Move</label>
+      <select class="move-select" data-p="${idx}">${moveOptions}</select>
+      <label>Target</label>
+      <select class="target-select" data-p="${idx}">${targetOptions}</select>
+      ${zRow}
+    </div>`;
+  }).join('');
+
+  controlsGrid.querySelectorAll('.switch-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = parseInt(btn.dataset.p);
+      const sel = controlsGrid.querySelector(`.switch-select[data-p="${idx}"]`);
+      battle.participants[idx].active = parseInt(sel.value);
+      addLog(`${battle.participants[idx].name} sends out ${activeMon(idx).species.name}!`);
+      renderBattle();
+    });
+  });
+
+  controlsGrid.querySelectorAll('.z-toggle').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      const sel = controlsGrid.querySelector(`.move-select[data-p="${cb.dataset.p}"]`);
+      if(sel) sel.disabled = cb.checked;
+    });
+  });
+
+  document.getElementById('fightBtn').style.display = pending.length > 0 ? 'none' : 'inline-block';
   checkGameOver();
 }
+
 function addLog(html){
   const box = document.getElementById('logBox');
   const p = document.createElement('p');
@@ -644,12 +781,13 @@ function applyEffect(move, user, target){
   addLog(`${recipient.species.name}'s ${move.effect.stat.toUpperCase()} ${move.effect.stages<0?'fell':'rose'}!`);
 }
 
-function computeDamage(attacker, move, defender){
+function computeDamage(attacker, move, defender, isZ){
   if(move.cat === 'status' || !move.power) return null;
+  const power = isZ ? zPowerFromBase(move.power) : move.power;
   const atkStat = move.cat === 'physical' ? effectiveStat(attacker,'atk') : effectiveStat(attacker,'spa');
   const defStat = move.cat === 'physical' ? effectiveStat(defender,'def') : effectiveStat(defender,'spd');
   const level = attacker.level;
-  const base = (((2*level/5 + 2) * move.power * (atkStat/defStat)) / 50) + 2;
+  const base = (((2*level/5 + 2) * power * (atkStat/defStat)) / 50) + 2;
   const stab = attacker.species.types.includes(move.type) ? 1.5 : 1;
   const typeEff = getEffectiveness(move.type, defender.species.types);
   const crit = Math.random() < 0.0625 ? 1.5 : 1;
@@ -658,23 +796,28 @@ function computeDamage(attacker, move, defender){
   return { total, typeEff, crit };
 }
 
-function performAttack(attackerTeam, defenderTeam, moveKey){
-  const attacker = activeMon(attackerTeam);
-  const defender = activeMon(defenderTeam);
-  const move = moveCache[moveKey];
+function performAttack(attacker, move, defender, isZ){
   if(attacker.fainted || defender.fainted) return;
-
-  const hit = Math.random()*100 < move.acc;
+  const acc = isZ ? 100 : move.acc; // Z-Moves always connect
+  const hit = Math.random()*100 < acc;
   if(!hit){ addLog(`${attacker.species.name} used <b>${move.name}</b>... but it missed!`); return; }
 
   if(move.cat === 'status' || !move.power){
-    addLog(`${attacker.species.name} used <b>${move.name}</b>!`);
+    addLog(isZ
+      ? `${attacker.species.name} used <b>${move.name}</b>, charged with Z-Power! ⚡`
+      : `${attacker.species.name} used <b>${move.name}</b>!`);
     applyEffect(move, attacker, defender);
+    if(isZ){
+      attacker.stages.atk = Math.max(-6, Math.min(6, attacker.stages.atk + 1));
+      attacker.stages.spa = Math.max(-6, Math.min(6, attacker.stages.spa + 1));
+      addLog(`${attacker.species.name}'s Z-Power surge boosts its ATK and SPA!`);
+    }
     return;
   }
-
-  const result = computeDamage(attacker, move, defender);
-  addLog(`${attacker.species.name} used <b>${move.name}</b>!`);
+  const result = computeDamage(attacker, move, defender, isZ);
+  addLog(isZ
+    ? `${attacker.species.name} unleashes a Z-Power-boosted <b>${move.name}</b>! ⚡`
+    : `${attacker.species.name} used <b>${move.name}</b>!`);
   if(result.typeEff === 0){ addLog(`<span class="eff-none">It had no effect on ${defender.species.name}...</span>`); return; }
   defender.currentHP = Math.max(0, defender.currentHP - result.total);
   let effText = '';
@@ -686,39 +829,52 @@ function performAttack(attackerTeam, defenderTeam, moveKey){
 }
 
 function executeTurn(){
-  if(battle.over || anyPendingSwitch()) return;
-  const selA = document.querySelector('.move-select[data-team="A"]').value;
-  const selB = document.querySelector('.move-select[data-team="B"]').value;
-  const fA = activeMon('A'), fB = activeMon('B');
-  const speA = effectiveStat(fA,'spe'), speB = effectiveStat(fB,'spe');
+  if(battle.over || pendingSwitchIndices().length > 0) return;
+  const actorIdx = aliveActiveIndices();
+  const actions = actorIdx.map(idx=>{
+    const moveSel = document.querySelector(`.move-select[data-p="${idx}"]`);
+    const targetSel = document.querySelector(`.target-select[data-p="${idx}"]`);
+    const zToggle = document.querySelector(`.z-toggle[data-p="${idx}"]`);
+    if(!moveSel || !targetSel) return null;
+    const useZ = !!(zToggle && zToggle.checked && activeMon(idx).zMove && !activeMon(idx).zUsed);
+    return { idx, moveKey: useZ ? activeMon(idx).zMove : moveSel.value, target: parseInt(targetSel.value), useZ };
+  }).filter(Boolean);
 
-  let order;
-  if(speA === speB) order = Math.random() < 0.5 ? ['A','B'] : ['B','A'];
-  else order = speA > speB ? ['A','B'] : ['B','A'];
+  const order = actions.slice().sort((a,b)=>{
+    const sa = effectiveStat(activeMon(a.idx),'spe') + Math.random()*0.01;
+    const sb = effectiveStat(activeMon(b.idx),'spe') + Math.random()*0.01;
+    return sb - sa;
+  });
 
-  order.forEach((team)=>{
+  order.forEach(act=>{
     if(battle.over) return;
-    const moveKey = team==='A' ? selA : selB;
-    const otherTeam = team==='A' ? 'B' : 'A';
-    if(activeMon(otherTeam).fainted || activeMon(team).fainted) return;
-    performAttack(team, otherTeam, moveKey);
+    const attacker = activeMon(act.idx);
+    if(!attacker || attacker.fainted) return;
+    let targetIdx = act.target;
+    let defender = isParticipantAlive(targetIdx) ? activeMon(targetIdx) : null;
+    if(!defender || defender.fainted){
+      const candidates = battle.participants.map((p,i)=>i).filter(i=> i!==act.idx && isParticipantAlive(i) && !activeMon(i).fainted);
+      if(candidates.length === 0){ addLog(`${attacker.species.name} has no target left!`); return; }
+      targetIdx = candidates[Math.floor(Math.random()*candidates.length)];
+      defender = activeMon(targetIdx);
+    }
+    if(act.useZ) attacker.zUsed = true; // crystal is consumed the moment it's used, hit or miss
+    performAttack(attacker, moveCache[act.moveKey], defender, act.useZ);
   });
 
   renderBattle();
 }
 
 function checkGameOver(){
-  const aAlive = battle.teamA.some(m=>!m.fainted);
-  const bAlive = battle.teamB.some(m=>!m.fainted);
-  if(!aAlive || !bAlive){
+  const alive = battle.participants.map((p,idx)=>idx).filter(isParticipantAlive);
+  if(alive.length <= 1 && !battle.over){
     battle.over = true;
-    const winner = aAlive ? 'A' : (bAlive ? 'B' : null);
-    document.getElementById('winnerBanner').innerHTML = winner
-      ? `<div class="winner-banner">🏆 Team ${winner} wins the battle!</div>`
-      : `<div class="winner-banner">It's a draw — both teams are down!</div>`;
+    const winnerName = alive.length === 1 ? battle.participants[alive[0]].name : null;
+    document.getElementById('winnerBanner').innerHTML = winnerName
+      ? `<div class="winner-banner">🏆 ${winnerName} wins the battle!</div>`
+      : `<div class="winner-banner">It's a draw — everyone's down!</div>`;
     document.getElementById('fightBtn').style.display = 'none';
-    document.getElementById('controlA').innerHTML = '';
-    document.getElementById('controlB').innerHTML = '';
+    document.getElementById('controlsGrid').innerHTML = '';
   }
 }
 
@@ -734,9 +890,8 @@ async function init(){
     return;
   }
   showGlobalLoading(false);
-  document.querySelectorAll('.add-mon-box').forEach(bindSpeciesBox);
-  renderRoster('A');
-  renderRoster('B');
+  renderCurrentRoster();
+  await loadSavedTeamsList();
 }
 init();
 </script>
